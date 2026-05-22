@@ -39,7 +39,7 @@
   .topbar{background:rgba(255,255,255,.92);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;backdrop-filter:saturate(120%) blur(10px)}
   .topbar-inner{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
   .brand{display:flex;align-items:center;gap:12px;min-width:0}
-  .brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+  .brand img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--line);background:var(--navy)}
   .brand-text{display:flex;flex-direction:column;line-height:1.1;min-width:0}
   .brand-name{font-family:var(--display);font-weight:600;font-size:18px;color:var(--navy);letter-spacing:.3px}
   .brand-sub{font-size:10.5px;color:var(--slate);letter-spacing:1.2px;text-transform:uppercase;font-weight:500}
@@ -267,6 +267,13 @@
   .field-anchor{font-size:11px;color:var(--slate);margin-top:5px;display:block;line-height:1.4;min-height:14px}
   .field-anchor:empty{min-height:0;margin-top:0}
   .field-anchor strong{color:var(--navy);font-variant-numeric:tabular-nums}
+  .anchor-details{display:inline-block;margin-left:6px}
+  .anchor-details summary{cursor:pointer;color:var(--gold);font-size:11px;list-style:none;display:inline}
+  .anchor-details summary::-webkit-details-marker{display:none}
+  .anchor-details summary::before{content:"ⓘ ";color:var(--gold)}
+  .anchor-details summary:hover{text-decoration:underline}
+  .anchor-details[open] summary::before{content:"− "}
+  .anchor-details span{display:block;margin-top:6px;padding:8px 10px;background:rgba(199,160,82,0.06);border-left:2px solid var(--gold);border-radius:3px;color:var(--slate);font-size:11px;line-height:1.5}
 
   /* Region trigger button (replaces select) */
   .region-trigger{
@@ -442,13 +449,16 @@
   }
   .reality-head{display:flex; align-items:center; gap:10px; margin-bottom:6px}
   .reality-icon{
-    width:28px; height:28px; border-radius:50%; background:var(--emerald);
-    color:#fff; display:flex; align-items:center; justify-content:center;
-    font-size:15px; flex-shrink:0;
+    width:30px; height:30px; border-radius:50%; background:var(--emerald);
+    color:#fff; display:inline-flex; align-items:center; justify-content:center;
+    font-size:18px; font-weight:700; line-height:1; flex-shrink:0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   }
   .reality-check h3{
-    font-family:var(--display); font-size:19px; font-weight:600;
-    color:var(--navy); margin:0; line-height:1.2;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size:18px; font-weight:700;
+    color:var(--navy); margin:0; line-height:1.25;
+    letter-spacing:-.01em;
   }
   .reality-intro{
     font-size:13.5px; color:var(--slate); margin:8px 0 14px; line-height:1.5;
@@ -811,10 +821,10 @@
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="https://go.primehomematch.eu" target="_blank" rel="noopener">
-      <img src="https://static.wixstatic.com/media/b12896_a8440cb38a074ddf80264580caddbefc~mv2.jpg" alt="Prime Home Match logo">
+      <img src="data:image/jpeg;base64,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" alt="Prime Home Match logo">
       <div class="brand-text">
-        <div class="brand-name">Anna Morozova</div>
-        <div class="brand-sub">Prime Home Match · Costa Blanca</div>
+        <div class="brand-name">Prime Home Match</div>
+        <div class="brand-sub">Anna Morozova · Costa Blanca</div>
       </div>
     </a>
     <a class="top-cta" href="https://wa.me/34604479819" target="_blank" rel="noopener">
@@ -986,15 +996,15 @@
           <label>School / childcare <span class="hint">per child, all children same type</span></label>
           <div class="field-control">
             <select id="schoolType">
-              <option value="public" selected>Public Spanish state (free + €150/mo meals)</option>
-              <option value="concertado">Concertado (semi-private bilingual)</option>
-              <option value="guarderia_private">Private guardería (0–3 yrs)</option>
-              <option value="private_school">Private Spanish school (3+)</option>
-              <option value="international">International school</option>
+              <option value="guarderia_private">Private nursery (0–3 years)</option>
+              <option value="public" selected>Public Spanish state school (3–18 years)</option>
+              <option value="concertado">Semi-private bilingual / concertado (3–18 years)</option>
+              <option value="private_school">Private Spanish school (3–18 years)</option>
+              <option value="international">International school (3–18 years)</option>
             </select>
           </div>
           <div id="schoolCustomWrap" style="display:none;margin-top:8px">
-            <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px">Tuition €/month per child <span class="hint">+ ~€800/yr registration & uniform added automatically</span></label>
+            <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px">Tuition €/month per child <span class="hint">+ ~€200/yr enrolment, materials &amp; uniform</span></label>
             <div class="field-control"><span class="field-prefix">€</span><input type="number" id="schoolCustomMonthly" min="0" step="50" placeholder="450"></div>
           </div>
           <span class="field-anchor" id="schoolAnchor" style="display:block;margin-top:6px"></span>
@@ -1081,40 +1091,6 @@
       </div>
       <p class="range-note" id="rangeNote" data-wstep="3">Figures shown ± a realistic variance for your lifestyle, area within the region, and choices. Hover/tap items below for what's included &amp; what's not.</p>
 
-      <!-- REALITY CHECK: savings & life-shape factors -->
-      <div class="reality-check" data-wstep="3">
-        <div class="reality-head">
-          <span class="reality-icon">⚖︎</span>
-          <h3>Read this carefully — every family is different</h3>
-        </div>
-        <p class="reality-intro">These numbers are realistic estimates based on Anna's Costa Blanca South data and Spanish statistics. Your real spending depends on choices the calculator can't make for you. Map this to <em>your</em> life:</p>
-
-        <div class="reality-grid">
-          <div class="reality-col reality-save">
-            <div class="reality-col-h">↓ Where you can save</div>
-            <ul>
-              <li><strong>Skip school meals</strong> — pick the child up at 14:00 instead of 16:00 (~€1,500/yr saved per child)</li>
-              <li><strong>Skip pet insurance</strong> — pay vet out-of-pocket (~€240/yr saved per pet, but a single emergency wipes it)</li>
-              <li><strong>Cook at home</strong> — every €15 menú del día replaced by home cooking saves ~€350/mo for two</li>
-              <li><strong>No car</strong> — coastal towns work on e-bikes / scooters. Saves ~€3,500/yr vs ownership</li>
-              <li><strong>Solar panels</strong> — many CB South villas have them. Summer electricity bill can drop to €0</li>
-              <li><strong>Public Spanish lessons</strong> — Escuela Oficial de Idiomas: €70–€150/yr instead of €700+ private</li>
-            </ul>
-          </div>
-          <div class="reality-col reality-extra">
-            <div class="reality-col-h">↑ What's NOT counted here</div>
-            <ul>
-              <li><strong>Travel</strong> — flights home, holidays in Spain, weekend trips</li>
-              <li><strong>Hobbies that add up:</strong> gym €35–€50/mo · zumba €5/class · mini-golf €13–€17 · golf membership from €1,000/yr</li>
-              <li><strong>Spa, beauty, dental work</strong> — Spanish dental is cheaper than UK/US but not free</li>
-              <li><strong>Expensive shopping habits</strong> — designer clothes, electronics, gadgets</li>
-              <li><strong>Major home repairs</strong> — roof, boiler, A/C unit replacement (€2k–€10k events)</li>
-              <li><strong>Income/wealth tax</strong> if you're tax-resident (6+ months/year on worldwide income)</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="reality-foot">The calculator gives you a <strong>realistic baseline</strong>. Move the toggles, tweak the numbers, and check the result reflects <em>your</em> lifestyle — not a stock family.</div>
       </div>
 
       <!-- ASSUMPTIONS & SOURCES PANEL -->
@@ -1350,6 +1326,41 @@
         </div>
       </div>
     </div>
+
+      <!-- REALITY CHECK: savings & life-shape factors -->
+      <div class="reality-check" data-wstep="3">
+        <div class="reality-head">
+          <span class="reality-icon">!</span>
+          <h3>Read this carefully — every family is different</h3>
+        </div>
+        <p class="reality-intro">These numbers are realistic estimates based on Anna's Costa Blanca South data and Spanish statistics. Your real spending depends on choices the calculator can't make for you. Map this to <em>your</em> life:</p>
+
+        <div class="reality-grid">
+          <div class="reality-col reality-save">
+            <div class="reality-col-h">↓ Where you can save</div>
+            <ul>
+              <li><strong>Skip school meals</strong> — pick the child up at 14:00 instead of 16:00 (~€1,500/yr saved per child)</li>
+              <li><strong>Skip pet insurance</strong> — pay vet out-of-pocket (~€240/yr saved per pet, but a single emergency wipes it)</li>
+              <li><strong>Cook at home</strong> — every €15 menú del día replaced by home cooking saves ~€350/mo for two</li>
+              <li><strong>No car</strong> — coastal towns work on e-bikes / scooters. Saves ~€3,500/yr vs ownership</li>
+              <li><strong>Solar panels</strong> — many CB South villas have them. Summer electricity bill can drop to €0</li>
+              <li><strong>Public Spanish lessons</strong> — Escuela Oficial de Idiomas: €70–€150/yr instead of €700+ private</li>
+            </ul>
+          </div>
+          <div class="reality-col reality-extra">
+            <div class="reality-col-h">↑ What's NOT counted here</div>
+            <ul>
+              <li><strong>Travel</strong> — flights home, holidays in Spain, weekend trips</li>
+              <li><strong>Hobbies that add up:</strong> gym €35–€50/mo · zumba €5/class · mini-golf €13–€17 · golf membership from €1,000/yr</li>
+              <li><strong>Spa, beauty, dental work</strong> — Spanish dental is cheaper than UK/US but not free</li>
+              <li><strong>Expensive shopping habits</strong> — designer clothes, electronics, gadgets</li>
+              <li><strong>Major home repairs</strong> — roof, boiler, A/C unit replacement (€2k–€10k events)</li>
+              <li><strong>Income/wealth tax</strong> if you're tax-resident (6+ months/year on worldwide income)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="reality-foot">The calculator gives you a <strong>realistic baseline</strong>. Move the toggles, tweak the numbers, and check the result reflects <em>your</em> lifestyle — not a stock family.</div>
 
     <!-- ASK ANNA — context-aware closer -->
     <div class="ask-anna">
@@ -1608,8 +1619,8 @@ const REGION_GROUPS = ["Costa Blanca", "Main Cities", "Wider Regions", "Popular 
 /* Lifestyle tiers — multipliers + add-ons */
 const LIFESTYLE = {
   baseline: {label:"Baseline", mult:1.0, hiTier:"basic", extras:[]},
-  comfortable: {label:"Comfortable", mult:1.75, hiTier:"mid", extras:["gym","eating_out_2pw"]},
-  luxury: {label:"Luxury", mult:2.75, hiTier:"premium", extras:["gym","eating_out_4pw","household_help","travel_buffer"]},
+  comfortable: {label:"Comfortable", mult:1.3, hiTier:"basic", extras:["gym","eating_out_2pw"]},
+  luxury: {label:"Luxury", mult:1.75, hiTier:"premium", extras:["gym","eating_out_4pw","household_help","travel_buffer"]},
 };
 
 /* Health insurance by age band (monthly, EUR) — PER ADULT
@@ -1636,41 +1647,41 @@ const HI_CHILD_MONTHLY = {basic:30, mid:40, premium:55};
    Private/international: tuition + €500-1000 registration + ~€300-500 uniform + materials.
    Values are PER CHILD, applied to state.children. */
 const SCHOOL_TYPES = {
-  public: {
-    label: "Public Spanish state (free + €150/mo meals)",
-    yrPerChild: 1700,    // €150/mo × 10 mo meals + €200 materials/uniform/trips
-    note: "Mandatory from age 6. Free tuition. School year = 10 months (Sep–Jun). Meals €150/mo × 10 mo + €200 materials/uniform/trips. Extended care to 16:00 costs extra (~€50-80/mo). Summer (Jul-Aug) is separate — see optional 'Summer camps' below.",
-    custom: false
-  },
-  concertado: {
-    label: "Concertado (semi-private bilingual)",
-    yrPerChild: 2700,    // €200/mo × 10 mo "voluntary" donation + meals + uniform + materials
-    note: "Semi-private subsidised. School year = 10 months. €100-200/mo \"voluntary\" donation + meals + uniform + materials. Summer separate.",
-    custom: false
-  },
   guarderia_private: {
-    label: "Private guardería (0-3 yrs)",
+    label: "Private nursery (0–3 years)",
     yrPerChild: 4200,    // €400/mo × 10 + €200 extras
-    note: "Private nursery for under-3s. Typically open 10 months (some open 11). ~€400/mo × 10 mo + registration/materials €200. Adjust below.",
+    note: "Private nursery for under-3s. Typically open 10 months (some open 11). ~€400/mo × 10 mo + enrolment/materials ~€200. Adjust below.",
     custom: true,
     defaultMonthly: 400
   },
+  public: {
+    label: "Public Spanish state school (3–18 years)",
+    yrPerChild: 1700,    // €150/mo × 10 mo meals + €200 materials/uniform/trips
+    note: "Free tuition, mandatory from age 6 (state also offers free pre-school from 3). School year = 10 months (Sep–Jun). Meals €150/mo × 10 mo + ~€200/yr materials, uniform, trips. Extended care to 16:00-16:30 is usually included with meals; some schools charge an extra fee. Summer (Jul–Aug) is separate — see optional 'Summer camps' below.",
+    custom: false
+  },
+  concertado: {
+    label: "Semi-private bilingual / concertado (3–18 years)",
+    yrPerChild: 2700,    // €200/mo × 10 mo "voluntary" donation + meals + uniform + materials
+    note: "Semi-private subsidised; many are bilingual. School year = 10 months. €100–200/mo \"voluntary\" donation + meals + uniform + materials. Extended care to 16:00-16:30 usually included with meals. Summer separate.",
+    custom: false
+  },
   private_school: {
-    label: "Private Spanish school (3+ yrs)",
+    label: "Private Spanish school (3–18 years)",
     yrPerChild: 4700,    // ~€450/mo × 10 + €200 extras
-    note: "Non-subsidised private. School year = 10 months. €350-600/mo × 10 + enrolment + uniform + materials (~€200-500/yr). Adjust below.",
+    note: "Non-subsidised private. School year = 10 months. €350–600/mo × 10 + enrolment + uniform + materials (~€200–500/yr). Extended care typically included until 16:00-16:30. Adjust below.",
     custom: true,
     defaultMonthly: 450
   },
   international: {
-    label: "International school",
+    label: "International school (3–18 years)",
     yrPerChild: 7200,    // €700/mo × 10 + €200 extras (mid range)
-    note: "British/American curriculum. School year = 10 months. €400/mo (primary) to €1,200/mo (upper years) × 10 + €500-1000 enrolment + uniform + materials. Adjust below.",
+    note: "British, American or other foreign curriculum. School year = 10 months. €400/mo (primary) to €1,200/mo (upper years) × 10 + €500–1,000 enrolment + uniform + materials. Extended care included until 16:00-16:30 at most schools. Adjust below.",
     custom: true,
     defaultMonthly: 700
   }
 };
-const SCHOOL_TYPE_ORDER = ["public", "concertado", "guarderia_private", "private_school", "international"];
+const SCHOOL_TYPE_ORDER = ["guarderia_private", "public", "concertado", "private_school", "international"];
 
 /* Summer-camp annual buffer per school-age child (CB South: June+July camps + August nanny gap) */
 const SUMMER_CARE_ANNUAL = 1800; // ~€650 × 2 mo camps (Jun+Jul) + ~€500 nanny part-time for August
@@ -2431,7 +2442,8 @@ function renderSchools() {
   const total = yrPerChild * state.children;
   const anchor = $("#schoolAnchor");
   if (anchor) {
-    anchor.innerHTML = `<strong>€${yrPerChild.toLocaleString()}/yr per child</strong> × ${state.children} = €${total.toLocaleString()}/yr · ${type.note}`;
+    // Compact display: cost summary on top line, full note hidden inside <details>
+    anchor.innerHTML = `<strong>€${yrPerChild.toLocaleString()}/yr per child</strong> × ${state.children} = €${total.toLocaleString()}/yr <details class="anchor-details"><summary>What's included</summary><span>${type.note}</span></details>`;
   }
 }
 
