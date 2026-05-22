@@ -66,6 +66,165 @@
 
   /* Calculator shell */
   .calc{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-md);overflow:hidden;border:1px solid var(--line)}
+  .calc[hidden]{display:none}
+
+  /* STEP 0: scenario picker */
+  .step0{
+    background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow-md);
+    border:1px solid var(--line); padding:28px 24px 26px; margin-top:6px;
+  }
+  .step0-head{text-align:center; margin-bottom:20px}
+  .step0-head h2{
+    font-family:var(--display); font-weight:500; font-size:clamp(22px,3vw,32px);
+    color:var(--navy); line-height:1.15; letter-spacing:-.3px;
+  }
+  .step0-head p{font-size:13.5px; color:var(--slate); margin-top:6px}
+  .step0-grid{
+    display:grid; grid-template-columns:1fr; gap:10px;
+  }
+  @media(min-width:560px){.step0-grid{grid-template-columns:1fr 1fr}}
+  @media(min-width:920px){.step0-grid{grid-template-columns:repeat(3,1fr)}}
+  .scen-card{
+    text-align:left; padding:18px 18px 16px; border:1px solid var(--line-strong);
+    border-radius:var(--radius-sm); background:var(--white); cursor:pointer;
+    transition:all .18s; display:flex; flex-direction:column; gap:5px;
+    position:relative; overflow:hidden;
+  }
+  .scen-card:hover:not(:disabled){
+    border-color:var(--navy); transform:translateY(-2px); box-shadow:var(--shadow-md);
+  }
+  .scen-card:disabled{opacity:.5; cursor:not-allowed}
+  .scen-card.primary{border-color:var(--gold); background:linear-gradient(180deg,#fffaee 0%,#fff 100%)}
+  .scen-card.primary::before{
+    content:"Most popular"; position:absolute; top:10px; right:10px;
+    font-size:9.5px; letter-spacing:.8px; text-transform:uppercase;
+    background:var(--gold); color:#fff; padding:3px 8px; border-radius:999px; font-weight:700;
+  }
+  .scen-icon{font-size:28px; line-height:1; margin-bottom:4px}
+  .scen-title{font-family:var(--display); font-size:20px; font-weight:600; color:var(--navy); line-height:1.15}
+  .scen-desc{font-size:13px; color:var(--slate); line-height:1.4}
+  .scen-tag{
+    margin-top:6px; font-size:10.5px; letter-spacing:.4px; color:var(--emerald);
+    font-weight:600; text-transform:uppercase;
+  }
+  .scen-card:disabled .scen-tag{color:var(--slate)}
+
+  /* Back-to-scenario bar */
+  .back-bar{
+    display:flex; align-items:center; gap:12px;
+    padding:10px 22px; background:#fbf8f2; border-bottom:1px solid var(--line);
+  }
+  .back-btn{
+    font-size:12px; font-weight:600; color:var(--emerald); cursor:pointer;
+    padding:5px 10px; border-radius:6px; transition:background .15s;
+  }
+  .back-btn:hover{background:rgba(0,122,94,.08)}
+  .back-label{
+    font-size:11px; letter-spacing:1.2px; text-transform:uppercase;
+    color:var(--slate); font-weight:600;
+  }
+  .back-label::before{content:"· "; color:var(--line-strong)}
+
+  /* WIZARD NAV (Phase 6) — lightweight step indicator */
+  .wizard-nav{
+    display:flex; align-items:center; gap:8px;
+    padding:14px 22px; background:#fff; border-bottom:1px solid var(--line);
+    overflow-x:auto; scrollbar-width:thin;
+  }
+  .wstep{
+    display:flex; align-items:center; gap:10px;
+    padding:8px 14px; border-radius:999px;
+    background:rgba(26,58,95,.04); border:1px solid transparent;
+    transition:all .2s; cursor:pointer; flex-shrink:0;
+  }
+  .wstep:hover{background:rgba(26,58,95,.07)}
+  .wstep.active{background:#fff; border-color:var(--emerald); box-shadow:0 0 0 3px rgba(0,122,94,.08)}
+  .wstep.done{background:rgba(0,122,94,.06)}
+  .wstep-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:24px; height:24px; border-radius:50%; flex-shrink:0;
+    background:var(--line); color:var(--slate);
+    font-size:12px; font-weight:700; font-variant-numeric:tabular-nums;
+    transition:all .2s;
+  }
+  .wstep.active .wstep-num{background:var(--emerald); color:#fff}
+  .wstep.done .wstep-num{background:var(--emerald); color:#fff}
+  .wstep-txt{display:flex; flex-direction:column; line-height:1.15; text-align:left}
+  .wstep-txt strong{font-size:13px; font-weight:600; color:var(--ink)}
+  .wstep-txt small{font-size:10.5px; color:var(--slate); letter-spacing:.3px}
+  .wstep-check{
+    display:none; color:var(--emerald); font-weight:700; font-size:13px; flex-shrink:0;
+  }
+  .wstep.done .wstep-check{display:inline}
+  .wstep-sep{
+    flex:0 0 18px; height:1px; background:var(--line-strong); flex-shrink:0;
+  }
+  .wizard-toggle{margin-left:auto; flex-shrink:0}
+  .wtoggle-label{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12px; color:var(--slate); cursor:pointer; white-space:nowrap;
+  }
+  .wtoggle-label input{cursor:pointer}
+  @media(max-width:560px){
+    .wizard-nav{padding:10px 14px; gap:6px}
+    .wstep{padding:6px 10px; gap:7px}
+    .wstep-txt small{display:none}
+    .wstep-sep{flex-basis:10px}
+    .wizard-toggle{flex-basis:100%; margin:6px 0 0; order:10}
+  }
+  @media(max-width:420px){
+    .wizard-nav{padding:8px 10px; gap:4px}
+    .wstep{padding:5px 8px; gap:5px; border-radius:14px}
+    .wstep-num{width:20px; height:20px; font-size:11px}
+    .wstep-txt strong{font-size:11.5px}
+    .wstep-sep{flex-basis:6px}
+    .wstep-continue-bar{padding:10px 14px 14px}
+    .wstep-continue{padding:9px 18px; font-size:13px}
+  }
+
+  /* Wizard view modes — only show current step's content */
+  /* Hide all wizard-tagged elements by default in wizard mode */
+  .calc.wizard-active .situation[data-wstep],
+  .calc.wizard-active .profiles[data-wstep],
+  .calc.wizard-active .input-grid[data-wstep],
+  .calc.wizard-active .results[data-wstep],
+  .calc.wizard-active .range-note[data-wstep],
+  .calc.wizard-active .reality-check[data-wstep],
+  .calc.wizard-active .assumptions-panel[data-wstep],
+  .calc.wizard-active .tabs[data-wstep],
+  .calc.wizard-active .panel[data-wstep]{display:none}
+
+  /* Show current step's elements */
+  .calc.wizard-active.show-step-1 .situation[data-wstep="1"]{display:block}
+  .calc.wizard-active.show-step-1 .profiles[data-wstep="1"]{display:block}
+  .calc.wizard-active.show-step-2 .input-grid[data-wstep="2"]{display:grid}
+  .calc.wizard-active.show-step-3 .results[data-wstep="3"]{display:grid}
+  .calc.wizard-active.show-step-3 .range-note[data-wstep="3"]{display:block}
+  .calc.wizard-active.show-step-3 .reality-check[data-wstep="3"]{display:block}
+  .calc.wizard-active.show-step-3 .assumptions-panel[data-wstep="3"]{display:block}
+  .calc.wizard-active.show-step-3 .tabs[data-wstep="3"]{display:flex}
+  .calc.wizard-active.show-step-3 .panel.active[data-wstep="3"]{display:block}
+
+  /* Step 2 shows step 1 dimmed for context */
+  .calc.wizard-active.show-step-2 .situation[data-wstep="1"]{display:block; opacity:.55; pointer-events:none}
+  .calc.wizard-active.show-step-2 .profiles[data-wstep="1"]{display:block; opacity:.55; pointer-events:none}
+  /* Step 3 shows step 2 inputs dimmed */
+  .calc.wizard-active.show-step-3 .input-grid[data-wstep="2"]{display:grid; opacity:.7}
+
+  /* Continue button */
+  .wstep-continue-bar{
+    padding:12px 22px 18px; background:#fff; border-bottom:1px solid var(--line);
+    display:flex; gap:12px; align-items:center; justify-content:flex-end;
+  }
+  .wstep-continue{
+    background:var(--emerald); color:#fff; padding:10px 22px; border-radius:999px;
+    font-size:14px; font-weight:600; transition:transform .15s, box-shadow .15s;
+  }
+  .wstep-continue:hover{transform:translateY(-1px); box-shadow:var(--shadow-md)}
+  .wstep-continue:disabled{opacity:.5; cursor:not-allowed}
+  .calc:not(.wizard-active) .wstep-continue-bar{display:none}
+  .calc.wizard-active.show-step-3 .wstep-continue-bar{display:none}
+  @media(max-width:560px){.wstep-continue-bar{padding:10px 14px 14px}}
 
   /* Situation row (above inputs) */
   .situation{
@@ -94,18 +253,99 @@
   /* Input grid */
   .calc-inputs{padding:18px 22px 14px}
   @media(max-width:540px){.calc-inputs{padding:14px 14px 10px}}
-  .input-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px}
-  .field label{display:block;font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--slate);font-weight:600;margin-bottom:6px}
+  .input-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 16px;margin-bottom:16px;align-items:start}
+  .field{display:flex;flex-direction:column;align-self:start}
+  .field label{display:block;font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--slate);font-weight:600;margin-bottom:6px;min-height:14px}
   .field label .hint{display:inline-block;margin-left:6px;color:var(--gold);font-weight:500;letter-spacing:.5px;text-transform:none}
   .field-control{position:relative}
-  .field-control select,.field-control input{width:100%;padding:11px 14px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--white);font-size:14px;color:var(--ink);font-weight:500;transition:border-color .15s,box-shadow .15s;appearance:none;-webkit-appearance:none}
+  .field-control select,.field-control input{width:100%;padding:11px 14px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--white);font-size:14px;color:var(--ink);font-weight:500;transition:border-color .15s,box-shadow .15s;appearance:none;-webkit-appearance:none;height:46px;box-sizing:border-box}
   .field-control select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%231A3A5F' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:34px}
   .field-control select:focus,.field-control input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,58,95,.1)}
   .field-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--slate);font-weight:500;pointer-events:none;font-size:14px}
   .field-prefix + input{padding-left:26px}
   .field-control input[type="number"]{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
-  .field-anchor{font-size:11px;color:var(--slate);margin-top:5px;display:block;line-height:1.4}
+  .field-anchor{font-size:11px;color:var(--slate);margin-top:5px;display:block;line-height:1.4;min-height:14px}
+  .field-anchor:empty{min-height:0;margin-top:0}
   .field-anchor strong{color:var(--navy);font-variant-numeric:tabular-nums}
+
+  /* Region trigger button (replaces select) */
+  .region-trigger{
+    width:100%; padding:6px 38px 6px 14px; border:1px solid var(--line-strong);
+    border-radius:var(--radius-sm); background:var(--white); text-align:left;
+    cursor:pointer; position:relative; transition:border-color .15s, box-shadow .15s;
+    display:flex; flex-direction:column; gap:1px; height:46px; justify-content:center;
+    box-sizing:border-box;
+  }
+  .region-trigger:hover{border-color:var(--navy)}
+  .region-trigger:focus{outline:none; border-color:var(--navy); box-shadow:0 0 0 3px rgba(26,58,95,.1)}
+  .region-trigger .rt-main{font-size:14px; font-weight:600; color:var(--ink); line-height:1.2}
+  .region-trigger .rt-sub{font-size:11.5px; color:var(--slate); line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .region-trigger .rt-chev{position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--navy); pointer-events:none}
+
+  /* Region picker modal */
+  .rp-overlay{
+    position:fixed; inset:0; background:rgba(14,28,44,.55); z-index:200;
+    display:flex; align-items:flex-end; justify-content:center; padding:0;
+    animation:rpFadeIn .18s ease;
+  }
+  .rp-overlay[hidden]{display:none}
+  @keyframes rpFadeIn{from{opacity:0}to{opacity:1}}
+  .rp-panel{
+    background:var(--white); width:100%; max-width:780px; max-height:88vh;
+    border-radius:18px 18px 0 0; display:flex; flex-direction:column;
+    box-shadow:0 -10px 40px rgba(14,28,44,.2);
+    animation:rpSlideUp .22s ease;
+  }
+  @keyframes rpSlideUp{from{transform:translateY(20px)}to{transform:translateY(0)}}
+  @media(min-width:760px){
+    .rp-overlay{align-items:center; padding:24px}
+    .rp-panel{border-radius:18px; max-height:82vh}
+  }
+  .rp-header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 22px 12px; border-bottom:1px solid var(--line);
+  }
+  .rp-header h3{font-family:var(--display); font-size:22px; font-weight:600; color:var(--navy)}
+  .rp-close{
+    width:36px; height:36px; border-radius:50%; background:var(--sand);
+    color:var(--slate); font-size:16px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:background .15s;
+  }
+  .rp-close:hover{background:var(--line-strong); color:var(--navy)}
+  .rp-search{padding:14px 22px 8px}
+  .rp-search input{
+    width:100%; padding:11px 14px; border:1px solid var(--line-strong);
+    border-radius:var(--radius-sm); font-size:14px; background:var(--white);
+  }
+  .rp-search input:focus{outline:none; border-color:var(--navy); box-shadow:0 0 0 3px rgba(26,58,95,.1)}
+  .rp-hint{font-size:12px; color:var(--slate); margin-top:8px; line-height:1.45}
+  .rp-body{flex:1; overflow-y:auto; padding:6px 22px 22px}
+  .rp-group{margin-top:18px}
+  .rp-group:first-child{margin-top:6px}
+  .rp-group-title{
+    font-size:11px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--slate); font-weight:700; margin-bottom:10px;
+  }
+  .rp-cards{display:grid; grid-template-columns:1fr; gap:8px}
+  @media(min-width:560px){.rp-cards{grid-template-columns:1fr 1fr}}
+  .rp-card{
+    border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:12px 14px; background:var(--white); cursor:pointer; text-align:left;
+    transition:all .15s; display:flex; flex-direction:column; gap:3px;
+  }
+  .rp-card:hover{border-color:var(--navy); background:#fdfaf3}
+  .rp-card.selected{border-color:var(--navy); background:linear-gradient(140deg,var(--navy) 0%,var(--marine) 100%); color:#fff}
+  .rp-card.selected .rp-card-tag{background:rgba(255,255,255,.18); color:#fff}
+  .rp-card.selected .rp-card-cities{color:rgba(255,255,255,.85)}
+  .rp-card-title{font-size:14px; font-weight:600; color:var(--ink); line-height:1.25}
+  .rp-card.selected .rp-card-title{color:#fff}
+  .rp-card-tag{
+    display:inline-block; font-size:10.5px; letter-spacing:.3px;
+    background:var(--sand); color:var(--slate); padding:2px 8px; border-radius:999px;
+    align-self:flex-start; font-weight:500;
+  }
+  .rp-card-cities{font-size:11.5px; color:var(--slate); line-height:1.35}
+  .rp-empty{padding:30px 14px; text-align:center; color:var(--slate); font-size:13px}
 
   /* Results strip */
   .results{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:4px 0 6px}
@@ -126,6 +366,208 @@
 
   .range-note{
     font-size:11.5px;color:var(--slate);text-align:center;padding:6px 14px 0;line-height:1.4;
+  }
+
+  /* Non-applicable result card */
+  .stat.muted{opacity:.45; filter:saturate(.4); pointer-events:none}
+  .stat.muted .value{font-size:14px; font-family:var(--sans); font-weight:500; color:var(--slate)}
+
+  /* Explainer toggle + body (Phase 3) */
+  .explainer-toggle{
+    margin-top:8px; padding:4px 0 2px; font-size:10.5px; font-weight:600;
+    letter-spacing:.4px; color:var(--emerald); cursor:pointer; text-align:left;
+    display:flex; align-items:center; gap:5px; transition:color .15s;
+  }
+  .explainer-toggle:hover{color:var(--navy)}
+  .explainer-toggle.on-dark{color:var(--gold)}
+  .explainer-toggle.on-dark:hover{color:#fff}
+  .explainer-toggle .ex-chev{display:inline-block; transition:transform .15s; font-size:9px}
+  .explainer-toggle[aria-expanded="true"] .ex-chev{transform:rotate(90deg)}
+  .explainer{
+    margin-top:8px; padding:10px 12px; border-radius:8px;
+    background:rgba(26,58,95,.04); border-left:2px solid var(--emerald);
+    font-size:11.5px; color:var(--slate); line-height:1.5;
+  }
+  .explainer.on-dark{
+    background:rgba(255,255,255,.08); border-left-color:var(--gold);
+    color:rgba(255,255,255,.92);
+  }
+  .explainer[hidden]{display:none}
+  .explainer .ex-row{display:flex; justify-content:space-between; gap:8px; padding:2px 0}
+  .explainer .ex-row span:last-child{font-variant-numeric:tabular-nums; font-weight:600; color:var(--ink); white-space:nowrap}
+  .explainer.on-dark .ex-row span:last-child{color:#fff}
+  .explainer .ex-formula{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:10.5px;
+    background:rgba(0,0,0,.05); padding:6px 8px; border-radius:5px; margin:6px 0;
+    color:var(--ink); word-break:break-word;
+  }
+  .explainer.on-dark .ex-formula{background:rgba(0,0,0,.2); color:#fff}
+  .explainer .ex-source{
+    margin-top:6px; padding-top:6px; border-top:1px solid rgba(26,58,95,.08);
+    font-size:10.5px; color:var(--slate); font-style:italic;
+  }
+  .explainer.on-dark .ex-source{border-top-color:rgba(255,255,255,.15); color:rgba(255,255,255,.7)}
+  .explainer .ex-warn{
+    margin-top:6px; padding:6px 8px; border-radius:5px;
+    background:rgba(168,56,56,.08); color:#8a2929; font-weight:500;
+  }
+  .explainer.on-dark .ex-warn{background:rgba(255,200,100,.15); color:#ffe2a0}
+
+  /* Assumptions & sources panel */
+  /* PHASE 7: Financing / Mortgage UI */
+  .financing-bar{
+    display:flex; align-items:center; gap:14px; margin-bottom:12px; flex-wrap:wrap;
+  }
+  .financing-toggle{flex-shrink:0}
+  .financing-summary{
+    font-size:13px; color:var(--slate); flex:1; min-width:0;
+  }
+  .financing-summary strong{color:var(--ink); font-weight:600}
+  #mortgageBreakdown{
+    background:rgba(26,58,95,.03); border:1px solid var(--line);
+    border-radius:var(--radius-sm); padding:12px 16px; margin-bottom:12px;
+  }
+  .mort-row{
+    display:flex; justify-content:space-between; padding:5px 0;
+    font-size:14px; border-bottom:1px dashed var(--line);
+  }
+  .mort-row:last-child{border-bottom:none}
+  .mort-row span:last-child{font-variant-numeric:tabular-nums; font-weight:600}
+  .mort-row.highlight{font-weight:600; color:var(--navy); padding-top:8px; margin-top:4px; border-top:1px solid var(--line-strong)}
+
+  .reality-check{
+    margin:18px 14px 4px; border:1px solid var(--line-strong); border-radius:var(--radius-sm);
+    background:linear-gradient(180deg,#fdfaf3 0%, #f8f3e8 100%);
+    padding:16px 18px 14px;
+  }
+  .reality-head{display:flex; align-items:center; gap:10px; margin-bottom:6px}
+  .reality-icon{
+    width:28px; height:28px; border-radius:50%; background:var(--emerald);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:15px; flex-shrink:0;
+  }
+  .reality-check h3{
+    font-family:var(--display); font-size:19px; font-weight:600;
+    color:var(--navy); margin:0; line-height:1.2;
+  }
+  .reality-intro{
+    font-size:13.5px; color:var(--slate); margin:8px 0 14px; line-height:1.5;
+  }
+  .reality-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:12px;
+  }
+  @media(max-width:680px){.reality-grid{grid-template-columns:1fr}}
+  .reality-col{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:12px 14px;
+  }
+  .reality-col-h{
+    font-size:13px; font-weight:700; letter-spacing:.02em;
+    padding-bottom:8px; margin-bottom:8px; border-bottom:1px solid var(--line);
+  }
+  .reality-save .reality-col-h{color:var(--emerald)}
+  .reality-extra .reality-col-h{color:#a8731e}
+  .reality-col ul{margin:0; padding:0; list-style:none}
+  .reality-col li{
+    font-size:12.5px; color:var(--slate); line-height:1.5;
+    padding:6px 0; border-bottom:1px dashed var(--line);
+  }
+  .reality-col li:last-child{border-bottom:0; padding-bottom:0}
+  .reality-col li strong{color:var(--ink); font-weight:600}
+  .reality-foot{
+    font-size:12.5px; color:var(--slate); font-style:italic;
+    padding:10px 12px; background:rgba(0,122,94,.06);
+    border-left:3px solid var(--emerald); border-radius:6px;
+    line-height:1.5;
+  }
+  .reality-foot strong{color:var(--navy); font-style:normal}
+
+  .assumptions-panel{
+    margin:12px 14px 4px; border:1px solid var(--line); border-radius:var(--radius-sm);
+    background:#fdfaf3; overflow:hidden;
+  }
+  .assumptions-panel summary{
+    padding:11px 14px; cursor:pointer; font-size:12.5px; font-weight:600;
+    color:var(--navy); list-style:none; display:flex; align-items:center; gap:8px;
+    user-select:none;
+  }
+  .assumptions-panel summary::-webkit-details-marker{display:none}
+  .assumptions-panel summary::before{
+    content:"+"; display:inline-flex; width:18px; height:18px; align-items:center; justify-content:center;
+    background:var(--white); border:1px solid var(--line-strong); border-radius:50%;
+    font-weight:700; color:var(--navy);
+  }
+  .assumptions-panel[open] summary::before{content:"−"}
+  .assumptions-panel summary em{font-style:italic; color:var(--gold); font-weight:600}
+  .assumptions-body{padding:0 14px 14px; font-size:12.5px; color:var(--slate); line-height:1.55}
+  .assumptions-body h6{font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:var(--navy); font-weight:700; margin:14px 0 6px}
+  .assumptions-body ul{padding-left:18px; margin:4px 0}
+  .assumptions-body li{margin:3px 0}
+  .assumptions-body code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11px; background:#fff; padding:1px 5px; border-radius:3px; border:1px solid var(--line)}
+
+  /* Phase 5: Rent vs Buy compare grid */
+  .rvb-grid{display:grid; grid-template-columns:1fr; gap:14px; margin:14px 0}
+  @media(min-width:680px){.rvb-grid{grid-template-columns:1fr 1fr}}
+  .rvb-col{
+    background:var(--white); border:1px solid var(--line-strong);
+    border-radius:var(--radius-sm); padding:18px 18px 14px;
+  }
+  .rvb-col.rvb-rent{border-top:3px solid var(--emerald)}
+  .rvb-col.rvb-buy{border-top:3px solid var(--gold)}
+  .rvb-header{font-family:var(--display); font-size:18px; font-weight:600; color:var(--navy); margin-bottom:10px}
+  .rvb-num{font-family:var(--display); font-size:30px; font-weight:600; color:var(--navy); margin-bottom:12px; font-variant-numeric:tabular-nums}
+  .rvb-num small{font-size:13px; color:var(--slate); font-weight:400; margin-left:4px}
+  .rvb-row{
+    display:flex; justify-content:space-between; gap:10px;
+    padding:8px 0; border-top:1px solid var(--line); font-size:13px;
+  }
+  .rvb-row span:first-child{color:var(--slate)}
+  .rvb-row span:last-child{font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
+  .rvb-verdict{
+    background:linear-gradient(140deg,var(--navy) 0%,var(--marine) 100%); color:#fff;
+    padding:16px 18px; border-radius:var(--radius-sm); margin:6px 0 18px;
+    font-size:14px; line-height:1.55;
+  }
+  .rvb-verdict small{display:block; margin-top:8px; opacity:.75; font-size:11.5px}
+
+  /* Phase 5: Explore quiz */
+  .explore-quiz{display:flex; flex-direction:column; gap:14px; margin:14px 0}
+  .explore-q{display:flex; gap:14px; padding:14px 16px; background:var(--white); border:1px solid var(--line); border-radius:var(--radius-sm)}
+  .eq-num{
+    flex-shrink:0; width:28px; height:28px; border-radius:50%;
+    background:var(--navy); color:#fff; font-weight:700; font-size:13px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .eq-body{flex:1}
+  .eq-question{font-size:14px; font-weight:600; color:var(--ink); margin-bottom:10px; line-height:1.35}
+  .eq-options{display:flex; flex-wrap:wrap; gap:6px}
+  .eq-opt{
+    padding:7px 12px; border:1px solid var(--line-strong); border-radius:999px;
+    background:var(--white); font-size:12.5px; cursor:pointer; transition:all .15s; color:var(--ink);
+  }
+  .eq-opt:hover{border-color:var(--navy); background:#fdfaf3}
+  .eq-opt.selected{background:var(--navy); color:#fff; border-color:var(--navy)}
+  .explore-result{margin:14px 0}
+  .er-card{
+    background:linear-gradient(140deg,#fdfaf3 0%,#fff 100%);
+    border:1px solid var(--gold); border-radius:var(--radius-sm); padding:22px 22px 18px;
+  }
+  .er-label{font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:6px}
+  .er-title{font-family:var(--display); font-size:24px; font-weight:600; color:var(--navy); margin-bottom:12px; line-height:1.2}
+  .er-reasons{padding-left:18px; margin:8px 0; font-size:13px; color:var(--slate); line-height:1.55}
+  .er-reasons li{margin:4px 0}
+  .er-afford{margin:12px 0; padding:10px 14px; background:rgba(0,122,94,.08); border-radius:6px; font-size:13px; color:var(--ink); line-height:1.45}
+  .er-go{margin-top:10px}
+
+  /* Mobile touch-target polish */
+  @media(max-width:760px){
+    .chip{padding:9px 14px; min-height:38px}
+    .pill-group button{padding:9px 14px; min-height:38px}
+    .eq-opt{padding:10px 14px; min-height:38px}
+    .scen-card{padding:22px 18px}
+    .step0{padding:22px 16px}
+    .rvb-num{font-size:26px}
+    .stat .value{font-size:24px}
   }
 
   /* Tabs */
@@ -349,6 +791,12 @@
   .sticky-wa svg{width:27px;height:27px}
   .sticky-wa::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #25D366;animation:pulse 2s infinite}
   @keyframes pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.4);opacity:0}}
+  /* Mobile: ensure content doesn't sit under the floating button */
+  @media(max-width:760px){
+    body{padding-bottom:90px}
+    .sticky-wa{bottom:calc(14px + env(safe-area-inset-bottom)); right:14px; width:50px; height:50px}
+    .sticky-wa svg{width:24px; height:24px}
+  }
 
   /* Schools per-child rows */
   .child-row{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
@@ -391,12 +839,85 @@
     </div>
   </div>
 
-  <div class="calc">
+  <!-- STEP 0: SCENARIO PICKER -->
+  <div class="step0" id="step0">
+    <div class="step0-head">
+      <h2>What are you planning to do in Spain?</h2>
+      <p>Pick one. The calculator will adjust to show only what's relevant.</p>
+    </div>
+    <div class="step0-grid">
+      <button class="scen-card" data-scenario="rent">
+        <div class="scen-icon">🏠</div>
+        <div class="scen-title">Rent a home</div>
+        <div class="scen-desc">I'm moving to Spain and planning to rent.</div>
+        <div class="scen-tag">Monthly living · Move-in · Year-1 budget</div>
+      </button>
+      <button class="scen-card primary" data-scenario="buy">
+        <div class="scen-icon">🔑</div>
+        <div class="scen-title">Buy a property</div>
+        <div class="scen-desc">I'm planning to buy — cash or mortgage, resident or non-resident.</div>
+        <div class="scen-tag">Total cash for purchase · Annual ownership</div>
+      </button>
+      <button class="scen-card" data-scenario="compare">
+        <div class="scen-icon">⚖️</div>
+        <div class="scen-title">Compare rent vs buy</div>
+        <div class="scen-desc">Help me figure out which makes more sense over 3–10 years.</div>
+        <div class="scen-tag">Breakeven · Monthly diff · Year-1 cash diff</div>
+      </button>
+      <button class="scen-card" data-scenario="own">
+        <div class="scen-icon">🏡</div>
+        <div class="scen-title">I already own</div>
+        <div class="scen-desc">Show me ongoing costs (IBI, community, IRNR, living).</div>
+        <div class="scen-tag">Annual ownership · Living costs</div>
+      </button>
+      <button class="scen-card" data-scenario="explore">
+        <div class="scen-icon">🤔</div>
+        <div class="scen-title">I'm not sure yet</div>
+        <div class="scen-desc">Guided questions → personalised recommendation.</div>
+        <div class="scen-tag">5 questions · Tailored guidance</div>
+      </button>
+    </div>
+  </div>
+
+  <div class="calc" id="calcWrapper" hidden>
+
+    <!-- Back-to-scenario bar -->
+    <div class="back-bar">
+      <button class="back-btn" id="backToStep0">← Change scenario</button>
+      <span class="back-label" id="backLabel">Renting</span>
+    </div>
+
+    <!-- WIZARD NAV (Phase 6: lightweight wizard) -->
+    <div class="wizard-nav" id="wizardNav">
+      <button class="wstep" data-wstep="1">
+        <span class="wstep-num">1</span>
+        <span class="wstep-txt"><strong>Who</strong><small>You &amp; lifestyle</small></span>
+        <span class="wstep-check" aria-hidden="true">✓</span>
+      </button>
+      <span class="wstep-sep" aria-hidden="true"></span>
+      <button class="wstep" data-wstep="2">
+        <span class="wstep-num">2</span>
+        <span class="wstep-txt"><strong>Where &amp; what</strong><small>Region &amp; budget</small></span>
+        <span class="wstep-check" aria-hidden="true">✓</span>
+      </button>
+      <span class="wstep-sep" aria-hidden="true"></span>
+      <button class="wstep" data-wstep="3">
+        <span class="wstep-num">3</span>
+        <span class="wstep-txt"><strong>Results</strong><small>Tabs &amp; advanced</small></span>
+        <span class="wstep-check" aria-hidden="true">✓</span>
+      </button>
+      <div class="wizard-toggle">
+        <label class="wtoggle-label">
+          <input type="checkbox" id="expertMode">
+          <span>Show all at once</span>
+        </label>
+      </div>
+    </div>
 
     <!-- SITUATION ROW -->
-    <div class="situation">
+    <div class="situation" data-wstep="1">
       <div class="sit-row">
-        <div class="sit-group">
+        <div class="sit-group" id="strategyRow" style="display:none">
           <span class="sit-label">Strategy</span>
           <div class="pill-group" id="strategyGroup">
             <button data-strategy="rent" class="active">Renting</button>
@@ -411,19 +932,11 @@
             <button data-mode="luxury">Luxury</button>
           </div>
         </div>
-        <div class="sit-group">
-          <span class="sit-label">Tax residency</span>
-          <div class="pill-group" id="residencyGroup">
-            <button data-res="resident" class="active">Resident (6+ mo)</button>
-            <button data-res="non_resident_eu">Non-res EU</button>
-            <button data-res="non_resident_world">Non-res world</button>
-          </div>
-        </div>
       </div>
     </div>
 
     <!-- PROFILES -->
-    <div class="profiles">
+    <div class="profiles" data-wstep="1">
       <div class="profiles-inner">
         <span class="profile-label">Quick start</span>
         <button class="chip" data-profile="solo">Solo</button>
@@ -438,10 +951,17 @@
 
     <!-- INPUTS -->
     <div class="calc-inputs">
-      <div class="input-grid">
+      <div class="input-grid" data-wstep="2">
         <div class="field">
           <label>Region · Sub-area</label>
-          <div class="field-control"><select id="region"></select></div>
+          <div class="field-control">
+            <button type="button" id="regionTrigger" class="region-trigger" aria-haspopup="dialog" aria-expanded="false">
+              <span class="rt-main" id="rtMain">Costa Blanca South</span>
+              <span class="rt-sub" id="rtSub">Torrevieja, Orihuela Costa, Guardamar</span>
+              <svg class="rt-chev" width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <input type="hidden" id="region" value="cb_south">
+          </div>
         </div>
         <div class="field">
           <label>Adults</label>
@@ -462,6 +982,32 @@
             </select>
           </div>
         </div>
+        <div class="field" id="schoolField" style="display:none">
+          <label>School / childcare <span class="hint">per child, all children same type</span></label>
+          <div class="field-control">
+            <select id="schoolType">
+              <option value="public" selected>Public Spanish state (free + €150/mo meals)</option>
+              <option value="concertado">Concertado (semi-private bilingual)</option>
+              <option value="guarderia_private">Private guardería (0–3 yrs)</option>
+              <option value="private_school">Private Spanish school (3+)</option>
+              <option value="international">International school</option>
+            </select>
+          </div>
+          <div id="schoolCustomWrap" style="display:none;margin-top:8px">
+            <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px">Tuition €/month per child <span class="hint">+ ~€800/yr registration & uniform added automatically</span></label>
+            <div class="field-control"><span class="field-prefix">€</span><input type="number" id="schoolCustomMonthly" min="0" step="50" placeholder="450"></div>
+          </div>
+          <span class="field-anchor" id="schoolAnchor" style="display:block;margin-top:6px"></span>
+        </div>
+        <div class="field">
+          <label>Pets <span class="hint">cats / dogs</span></label>
+          <div class="field-control">
+            <select id="pets">
+              <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4+</option>
+            </select>
+          </div>
+          <span class="field-anchor" id="petsAnchor"></span>
+        </div>
         <div class="field">
           <label>Primary adult age band</label>
           <div class="field-control">
@@ -474,8 +1020,8 @@
           </div>
         </div>
         <div class="field" id="rentField">
-          <label>Monthly rent <span class="hint">€/month</span></label>
-          <div class="field-control"><span class="field-prefix">€</span><input type="number" id="rent" value="850" min="0" step="50"></div>
+          <label>Monthly rent <span class="hint">€/month — excludes utilities</span></label>
+          <div class="field-control"><span class="field-prefix">€</span><input type="number" id="rent" value="750" min="0" step="50"></div>
           <span class="field-anchor" id="rentAnchor"></span>
         </div>
         <div class="field" id="priceField" style="display:none">
@@ -484,45 +1030,123 @@
           <span class="field-anchor" id="priceAnchor"></span>
         </div>
         <div class="field">
-          <label>Monthly health insurance <span class="hint">Y2+</span></label>
+          <label>Household health insurance <span class="hint">€/month total</span></label>
           <div class="field-control"><span class="field-prefix">€</span><input type="number" id="hi" value="80" min="0" step="10"></div>
           <span class="field-anchor" id="hiAnchor"></span>
         </div>
       </div>
 
       <!-- RESULTS -->
-      <div class="results">
-        <div class="stat"><div class="label">Monthly cost of living</div><div class="value" id="rMonthly">—</div><div class="range" id="rMonthlyRange"></div><div class="meta" id="rMonthlyMeta"></div></div>
-        <div class="stat"><div class="label">Annual cost of living</div><div class="value" id="rAnnual">—</div><div class="range" id="rAnnualRange"></div><div class="meta" id="rAnnualMeta"></div></div>
-        <div class="stat"><div class="label">One-time relocation</div><div class="value" id="rMove">—</div><div class="range" id="rMoveRange"></div><div class="meta">Year 1 only</div></div>
-        <div class="stat purchase" id="statPurchase" style="display:none"><div class="label">Y1 purchase costs</div><div class="value" id="rPurchase">—</div><div class="range" id="rPurchaseRange"></div><div class="meta" id="rPurchaseMeta"></div></div>
-        <div class="stat highlight"><div class="label">Year 1 all-in</div><div class="value" id="rYear1">—</div><div class="range" id="rYear1Range"></div><div class="meta" id="rYear1Meta"></div></div>
+      <div class="results" data-wstep="3">
+        <div class="stat">
+          <div class="label">Monthly cost of living</div>
+          <div class="value" id="rMonthly">—</div>
+          <div class="range" id="rMonthlyRange"></div>
+          <div class="meta" id="rMonthlyMeta"></div>
+          <button class="explainer-toggle" data-explain="monthly" aria-expanded="false">How this was calculated <span class="ex-chev">▸</span></button>
+          <div class="explainer" id="explainMonthly" hidden></div>
+        </div>
+        <div class="stat">
+          <div class="label">Annual cost of living</div>
+          <div class="value" id="rAnnual">—</div>
+          <div class="range" id="rAnnualRange"></div>
+          <div class="meta" id="rAnnualMeta"></div>
+          <button class="explainer-toggle" data-explain="annual" aria-expanded="false">How this was calculated <span class="ex-chev">▸</span></button>
+          <div class="explainer" id="explainAnnual" hidden></div>
+        </div>
+        <div class="stat">
+          <div class="label">One-time relocation</div>
+          <div class="value" id="rMove">—</div>
+          <div class="range" id="rMoveRange"></div>
+          <div class="meta">Year 1 only</div>
+          <button class="explainer-toggle" data-explain="move" aria-expanded="false">How this was calculated <span class="ex-chev">▸</span></button>
+          <div class="explainer" id="explainMove" hidden></div>
+        </div>
+        <div class="stat purchase" id="statPurchase" style="display:none">
+          <div class="label">Total cash for purchase</div>
+          <div class="value" id="rPurchase">—</div>
+          <div class="range" id="rPurchaseRange"></div>
+          <div class="meta" id="rPurchaseMeta"></div>
+          <button class="explainer-toggle on-dark" data-explain="purchase" aria-expanded="false">How this was calculated <span class="ex-chev">▸</span></button>
+          <div class="explainer on-dark" id="explainPurchase" hidden></div>
+        </div>
+        <div class="stat highlight">
+          <div class="label">Year 1 all-in</div>
+          <div class="value" id="rYear1">—</div>
+          <div class="range" id="rYear1Range"></div>
+          <div class="meta" id="rYear1Meta"></div>
+          <button class="explainer-toggle on-dark" data-explain="year1" aria-expanded="false">How this was calculated <span class="ex-chev">▸</span></button>
+          <div class="explainer on-dark" id="explainYear1" hidden></div>
+        </div>
       </div>
-      <p class="range-note">Figures shown ± a realistic variance for your lifestyle, area within the region, and choices. Hover/tap items below for what's included &amp; what's not.</p>
+      <p class="range-note" id="rangeNote" data-wstep="3">Figures shown ± a realistic variance for your lifestyle, area within the region, and choices. Hover/tap items below for what's included &amp; what's not.</p>
+
+      <!-- REALITY CHECK: savings & life-shape factors -->
+      <div class="reality-check" data-wstep="3">
+        <div class="reality-head">
+          <span class="reality-icon">⚖︎</span>
+          <h3>Read this carefully — every family is different</h3>
+        </div>
+        <p class="reality-intro">These numbers are realistic estimates based on Anna's Costa Blanca South data and Spanish statistics. Your real spending depends on choices the calculator can't make for you. Map this to <em>your</em> life:</p>
+
+        <div class="reality-grid">
+          <div class="reality-col reality-save">
+            <div class="reality-col-h">↓ Where you can save</div>
+            <ul>
+              <li><strong>Skip school meals</strong> — pick the child up at 14:00 instead of 16:00 (~€1,500/yr saved per child)</li>
+              <li><strong>Skip pet insurance</strong> — pay vet out-of-pocket (~€240/yr saved per pet, but a single emergency wipes it)</li>
+              <li><strong>Cook at home</strong> — every €15 menú del día replaced by home cooking saves ~€350/mo for two</li>
+              <li><strong>No car</strong> — coastal towns work on e-bikes / scooters. Saves ~€3,500/yr vs ownership</li>
+              <li><strong>Solar panels</strong> — many CB South villas have them. Summer electricity bill can drop to €0</li>
+              <li><strong>Public Spanish lessons</strong> — Escuela Oficial de Idiomas: €70–€150/yr instead of €700+ private</li>
+            </ul>
+          </div>
+          <div class="reality-col reality-extra">
+            <div class="reality-col-h">↑ What's NOT counted here</div>
+            <ul>
+              <li><strong>Travel</strong> — flights home, holidays in Spain, weekend trips</li>
+              <li><strong>Hobbies that add up:</strong> gym €35–€50/mo · zumba €5/class · mini-golf €13–€17 · golf membership from €1,000/yr</li>
+              <li><strong>Spa, beauty, dental work</strong> — Spanish dental is cheaper than UK/US but not free</li>
+              <li><strong>Expensive shopping habits</strong> — designer clothes, electronics, gadgets</li>
+              <li><strong>Major home repairs</strong> — roof, boiler, A/C unit replacement (€2k–€10k events)</li>
+              <li><strong>Income/wealth tax</strong> if you're tax-resident (6+ months/year on worldwide income)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="reality-foot">The calculator gives you a <strong>realistic baseline</strong>. Move the toggles, tweak the numbers, and check the result reflects <em>your</em> lifestyle — not a stock family.</div>
+      </div>
+
+      <!-- ASSUMPTIONS & SOURCES PANEL -->
+      <details class="assumptions-panel" data-wstep="3">
+        <summary>Assumptions, sources &amp; what's <em>not</em> included</summary>
+        <div class="assumptions-body" id="assumptionsBody"></div>
+      </details>
+    </div>
+
+    <!-- WIZARD CONTINUE BAR (only visible during wizard steps 1 & 2) -->
+    <div class="wstep-continue-bar">
+      <button class="wstep-continue" id="wstepContinue">Continue →</button>
     </div>
 
     <!-- TABS -->
-    <div class="tabs" role="tablist">
+    <div class="tabs" role="tablist" data-wstep="3">
       <button class="tab active" data-tab="living"><span>Cost of Living</span><small>Monthly · Annual</small></button>
       <button class="tab" data-tab="move"><span>Relocation</span><small>One-time</small></button>
       <button class="tab disabled" id="tabBuying" data-tab="buying"><span>Buying</span><small>Taxes &amp; ownership</small></button>
-      <button class="tab" data-tab="compare"><span>Compare Regions</span><small>All 19</small></button>
+      <button class="tab" data-tab="compare"><span>Compare</span><small>Rent vs Buy &amp; Regions</small></button>
+      <button class="tab" data-tab="explore" style="display:none"><span>Guided</span><small>Help me decide</small></button>
     </div>
 
     <!-- COST OF LIVING PANEL -->
-    <div class="panel active" id="panel-living">
+    <div class="panel active" id="panel-living" data-wstep="3">
       <div class="group-title">Your annual cost of living<small id="livingModeLabel">Baseline</small></div>
-      <p class="intro-line">INE consumer-units model: 1st adult = 1.0, each extra adult = +0.5, each child &lt;14 = +0.3. Annual = regional cost per unit × your units × lifestyle multiplier, plus rent, insurance, and the optional modules below.</p>
+      <p class="intro-line">INE consumer-units model: 1st adult = 1.0, each extra adult = +0.5, each child &lt;14 = +0.3. Annual = regional cost per unit × your units × lifestyle multiplier, plus rent, insurance, and the optional modules below. <strong>Utilities (water + electricity, ~€150–€350/mo on the coast, summer A/C spikes hit €250+)</strong> are included in the day-to-day cost — not in your rent line.</p>
 
       <div id="livingBreakdown"></div>
 
       <div class="group-title" style="margin-top:18px">Optional life modules<small>Anna's local Costa Blanca defaults</small></div>
       <div id="livingModules"></div>
-
-      <div id="schoolsBlock" style="display:none">
-        <div class="group-title" style="margin-top:18px">Children's schools<small>Costa Blanca South pricing</small></div>
-        <div id="schoolsList" style="border:1px solid var(--line);border-radius:var(--radius-sm);padding:6px 14px;background:#fff"></div>
-      </div>
 
       <div class="total-bar">
         <span class="total-label">Annual total · <span id="modeLabelTotal" style="color:var(--gold)">Baseline</span></span>
@@ -535,7 +1159,7 @@
     </div>
 
     <!-- RELOCATION PANEL -->
-    <div class="panel" id="panel-move">
+    <div class="panel" id="panel-move" data-wstep="3">
       <div class="group-title">Core move costs<small>Year 1 · toggle off if not applicable</small></div>
       <div id="coreMove"></div>
       <div class="group-title" style="margin-top:16px">Optional extras<small>Where €18k moves become €51k moves</small></div>
@@ -548,7 +1172,7 @@
     </div>
 
     <!-- BUYING PANEL -->
-    <div class="panel" id="panel-buying">
+    <div class="panel" id="panel-buying" data-wstep="3">
       <div class="group-title">Purchase taxes &amp; fees<small id="buyingRegionLabel"></small></div>
       <p class="intro-line" id="buyingIntro"></p>
 
@@ -571,15 +1195,6 @@
             </select>
           </div>
         </div>
-        <div class="field">
-          <label>Location type</label>
-          <div class="field-control">
-            <select id="propLocation">
-              <option value="inland">Inland / local town</option>
-              <option value="coastal" selected>Coastal / tourist area</option>
-            </select>
-          </div>
-        </div>
         <div class="field" id="poolField">
           <label>Pool / community</label>
           <div class="field-control">
@@ -588,6 +1203,28 @@
               <option value="community" selected>Community pool</option>
               <option value="private">Private pool (villa)</option>
             </select>
+          </div>
+        </div>
+        <div class="field" id="completionField">
+          <label>Expected completion date <span class="hint">affects ITP</span></label>
+          <div class="field-control"><input type="date" id="completionDate"></div>
+          <span class="field-anchor" id="completionAnchor"></span>
+        </div>
+        <div class="field" id="residencyField">
+          <label>Will you live there full-time? <span class="hint">tax status</span></label>
+          <div class="field-control">
+            <select id="residencyBuy">
+              <option value="resident" selected>Yes — Spanish tax resident</option>
+              <option value="non_resident_eu">No — non-resident (EU citizen)</option>
+              <option value="non_resident_world">No — non-resident (non-EU)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" id="cadastralField" style="display:none">
+          <label>Cadastral value % of market <span class="hint">IRNR base</span></label>
+          <div class="field-control">
+            <span class="field-prefix">%</span>
+            <input type="number" id="cadastralPct" min="10" max="90" step="5" value="50">
           </div>
         </div>
       </div>
@@ -606,17 +1243,75 @@
         <span class="total-val" id="ownershipTotal">—</span>
       </div>
 
+      <!-- PHASE 7: MORTGAGE / FINANCING -->
+      <div class="group-title" style="margin-top:20px">Financing<small>Cash or mortgage</small></div>
+      <div class="financing-bar">
+        <div class="financing-toggle pill-group" id="financingToggle">
+          <button data-fin="cash" class="active">Cash purchase</button>
+          <button data-fin="mortgage">Mortgage</button>
+        </div>
+        <div class="financing-summary" id="financingSummary" style="display:none"></div>
+      </div>
+      <div id="mortgagePanel" style="display:none">
+        <div class="input-grid" style="margin-bottom:10px">
+          <div class="field">
+            <label>LTV <span class="hint">% financed</span></label>
+            <div class="field-control">
+              <select id="mortLtv">
+                <option value="0.5">50%</option>
+                <option value="0.6">60% (typical non-resident)</option>
+                <option value="0.65">65%</option>
+                <option value="0.7" selected>70% (typical resident)</option>
+                <option value="0.8">80%</option>
+                <option value="0.9">90% (resident, max)</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Interest rate <span class="hint">annual, fixed</span></label>
+            <div class="field-control"><span class="field-prefix">%</span><input type="number" id="mortRate" value="3.5" min="0" max="10" step="0.05"></div>
+          </div>
+          <div class="field">
+            <label>Term <span class="hint">years</span></label>
+            <div class="field-control">
+              <select id="mortTerm">
+                <option value="15">15 years</option>
+                <option value="20">20 years</option>
+                <option value="25" selected>25 years</option>
+                <option value="30">30 years</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Arrangement fee <span class="hint">% of loan</span></label>
+            <div class="field-control"><span class="field-prefix">%</span><input type="number" id="mortArrangement" value="0.5" min="0" max="2" step="0.1"></div>
+          </div>
+        </div>
+        <div id="mortgageBreakdown"></div>
+        <div class="note">
+          <strong>What this models:</strong> standard fixed-rate amortising mortgage. <strong>Not included:</strong> AJD on mortgage deed (paid by bank under 2018 Spanish law), broker fees, life/home insurance bank may require, early-repayment penalties. Non-resident buyers typically max at 60–65% LTV; residents at 80% (up to 90% in some cases). Rate shown is fixed; variable-rate (Euribor-linked) mortgages may start lower but carry interest-rate risk.
+        </div>
+      </div>
+
       <div class="note warn" id="irnrNote" style="display:none">
         <strong>Non-resident owner alert:</strong> Even if your property sits empty, Spain treats it as generating "imputed income" for tax purposes. You must file <strong>Modelo 210</strong> annually. EU residents pay 19% on this deemed income; non-EU 24%. This is separate from IBI and is the most-missed annual obligation for foreign owners.
       </div>
 
       <div class="note">
-        <strong>Valencia ITP rate change:</strong> 10% ITP on resale applies until 31 May 2026, then drops to <strong>9%</strong> from 1 June 2026 (large-family/young-buyer reductions apply separately). New builds: 10% VAT + 1.5% AJD. Mortgage costs not included.
+        <strong>Valencia ITP rate change:</strong> 10% ITP on resale applies until 31 May 2026, then drops to <strong>9%</strong> from 1 June 2026 (large-family/young-buyer reductions apply separately). New builds: 10% VAT + 1.5% AJD.
       </div>
     </div>
 
     <!-- COMPARE PANEL -->
-    <div class="panel" id="panel-compare">
+    <div class="panel" id="panel-compare" data-wstep="3">
+      <!-- Rent vs Buy comparison (shown only in Compare scenario) -->
+      <div id="rentVsBuyBlock" style="display:none">
+        <div class="group-title">Renting vs Buying<small>Year-1 cash · ongoing monthly · breakeven</small></div>
+        <p class="intro-line">Side-by-side comparison using your current inputs. Switch to mortgage in the <strong>Buying tab → Financing</strong> to model a loan.</p>
+        <div class="rvb-grid" id="rvbGrid"></div>
+        <div class="rvb-verdict" id="rvbVerdict"></div>
+      </div>
+
       <div class="group-title">Annual cost of living, ranked<small>Your household · current lifestyle</small></div>
       <p class="intro-line">Day-to-day spending only — rent and insurance held constant so you see the regional difference. <strong>Gold</strong> = cheapest. <strong>Green</strong> = your region.</p>
       <div class="compare-bars" id="compareBars"></div>
@@ -627,6 +1322,14 @@
         </div>
         <a href="https://wa.me/34604479819?text=Hi%20Anna%2C%20I%27m%20looking%20at%20Costa%20Blanca%20South." target="_blank" rel="noopener" class="btn btn-wa">Ask me</a>
       </div>
+    </div>
+
+    <!-- EXPLORE panel — guided mini-recommender -->
+    <div class="panel" id="panel-explore" data-wstep="3">
+      <div class="group-title">Let's figure out what fits<small>5 quick questions</small></div>
+      <p class="intro-line">Answer these and I'll suggest a starting scenario. No data leaves the page.</p>
+      <div class="explore-quiz" id="exploreQuiz"></div>
+      <div class="explore-result" id="exploreResult" style="display:none"></div>
     </div>
 
     <!-- INSIGHTS CARDS (always visible below tabs) -->
@@ -839,6 +1542,21 @@
   <div class="foot-bot">Figures: INE 2024 +2.5% for 2026, Idealista 2024/25, Valencia tax 2026, Anna's local Costa Blanca South data. Estimates only — not financial or tax advice. © 2026 Prime Home Match.</div>
 </footer>
 
+<!-- REGION PICKER MODAL -->
+<div class="rp-overlay" id="regionModal" role="dialog" aria-modal="true" aria-labelledby="rpTitle" hidden>
+  <div class="rp-panel" role="document">
+    <div class="rp-header">
+      <h3 id="rpTitle">Choose your region</h3>
+      <button class="rp-close" id="regionClose" aria-label="Close">✕</button>
+    </div>
+    <div class="rp-search">
+      <input type="text" id="regionFilter" placeholder="Filter by name, area, or city…" autocomplete="off">
+      <p class="rp-hint">Not sure? Choose the closest area — this calculator gives estimates, not exact quotes.</p>
+    </div>
+    <div class="rp-body" id="regionBody"></div>
+  </div>
+</div>
+
 <a href="https://wa.me/34604479819" target="_blank" rel="noopener" class="sticky-wa" aria-label="WhatsApp Anna">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.6.1-.2.2-.7.8-.8 1-.1.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.5.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4 0-.7.3-.2.3-.9.9-.9 2.2 0 1.3.9 2.6 1.1 2.7.1.2 1.8 2.7 4.3 3.8.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.2.2-1.3 0-.2-.2-.3-.5-.4M12 21c-1.6 0-3.2-.4-4.6-1.2l-.3-.2-3.5.9.9-3.4-.2-.4C3.4 15.2 3 13.6 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9m7.6-16.6C17.6 2.3 14.9 1 12 1 6 1 1 5.9 1 12c0 2 .5 3.9 1.5 5.6L1 23l5.5-1.5c1.7.9 3.5 1.4 5.5 1.4 6 0 11-4.9 11-11 0-2.9-1.3-5.6-3.4-7.5"/></svg>
 </a>
@@ -848,30 +1566,44 @@
    DATA MODEL — v4
    ============================================================= */
 
-/* Regions with subzones — CB South extracted from Valencia avg */
+/* Regions — buyer-friendly taxonomy, grouped for predefined-card selector.
+   Italicized numeric estimates pending verification against Idealista 2026 Q1 medians + Anna's local data. */
 const REGIONS = [
-  {key:"cb_south", label:"Costa Blanca South (Anna's home turf)", parent:"Valencia", unit:14000, rentMid:850, rentLow:600, rentHigh:1400},
-  {key:"valencia_general", label:"Valencia region (general)", parent:"Valencia", unit:15445.66, rentMid:1100, rentLow:800, rentHigh:1600},
-  {key:"valencia_city", label:"Valencia city", parent:"Valencia", unit:16800, rentMid:1300, rentLow:900, rentHigh:1800},
-  {key:"andalusia", label:"Andalusia (interior)", unit:14146.64, rentMid:800, rentLow:550, rentHigh:1200},
-  {key:"costa_del_sol", label:"Costa del Sol (Málaga / Marbella)", parent:"Andalusia", unit:17500, rentMid:1500, rentLow:1100, rentHigh:2500},
-  {key:"madrid", label:"Madrid", unit:16773.54, rentMid:1800, rentLow:1300, rentHigh:2800},
-  {key:"catalonia", label:"Catalonia (general)", unit:16741.83, rentMid:1300, rentLow:900, rentHigh:1900},
-  {key:"barcelona_metro", label:"Barcelona metro", parent:"Catalonia", unit:21000, rentMid:2000, rentLow:1500, rentHigh:3200},
-  {key:"balearic", label:"Balearic Islands", unit:15812.16, rentMid:1900, rentLow:1400, rentHigh:3000},
-  {key:"canary", label:"Canary Islands", unit:14815.17, rentMid:1100, rentLow:800, rentHigh:1700},
-  {key:"murcia", label:"Murcia", unit:15174.39, rentMid:700, rentLow:500, rentHigh:1100},
-  {key:"aragon", label:"Aragon", unit:16373.66, rentMid:850, rentLow:650, rentHigh:1200},
-  {key:"asturias", label:"Asturias", unit:16100.62, rentMid:800, rentLow:600, rentHigh:1100},
-  {key:"cantabria", label:"Cantabria", unit:16641.65, rentMid:850, rentLow:650, rentHigh:1200},
-  {key:"castilla_leon", label:"Castilla y León", unit:15780.31, rentMid:700, rentLow:500, rentHigh:1000},
-  {key:"castilla_mancha", label:"Castilla-La Mancha", unit:14302.94, rentMid:650, rentLow:500, rentHigh:900},
-  {key:"extremadura", label:"Extremadura", unit:13548.07, rentMid:550, rentLow:400, rentHigh:800},
-  {key:"galicia", label:"Galicia", unit:16770.66, rentMid:750, rentLow:550, rentHigh:1100},
-  {key:"navarra", label:"Navarra", unit:16353.96, rentMid:900, rentLow:700, rentHigh:1300},
-  {key:"basque", label:"Basque Country", unit:16670.28, rentMid:1100, rentLow:850, rentHigh:1600},
-  {key:"rioja", label:"La Rioja", unit:16409.31, rentMid:700, rentLow:550, rentHigh:1000},
+  // Group 1: Costa Blanca (Anna's home market)
+  {key:"cb_south", group:"Costa Blanca", label:"Costa Blanca South", cities:"Torrevieja, Orihuela Costa, Guardamar, Pilar de la Horadada", tag:"Affordable expat coast", unit:14000, rentMid:1000, rentLow:500, rentHigh:1800, priceMid:220000, priceLow:140000, priceHigh:380000},
+  {key:"cb_central", group:"Costa Blanca", label:"Alicante & Central Costa Blanca", cities:"Alicante, Santa Pola, El Campello", tag:"Real Spanish coastal city", unit:14800, rentMid:1100, rentLow:600, rentHigh:2000, priceMid:260000, priceLow:170000, priceHigh:450000},
+  {key:"cb_north", group:"Costa Blanca", label:"Costa Blanca North", cities:"Benidorm, Altea, Calpe, Dénia, Jávea", tag:"Premium northern coast", unit:15200, rentMid:1300, rentLow:700, rentHigh:2400, priceMid:340000, priceLow:200000, priceHigh:650000},
+
+  // Group 2: Main Cities
+  {key:"valencia_city", group:"Main Cities", label:"Valencia City", cities:"Valencia", tag:"Big-city Mediterranean lifestyle", unit:16800, rentMid:1300, rentLow:900, rentHigh:1800, priceMid:330000, priceLow:220000, priceHigh:550000},
+  {key:"madrid_city", group:"Main Cities", label:"Madrid City & Inner Metro", cities:"Madrid, Pozuelo, Las Rozas", tag:"Capital-city lifestyle", unit:17500, rentMid:1950, rentLow:1400, rentHigh:3000, priceMid:480000, priceLow:280000, priceHigh:800000},
+  {key:"barcelona_city", group:"Main Cities", label:"Barcelona City & Coast", cities:"Barcelona, Sitges, Badalona, Castelldefels", tag:"Premium urban Mediterranean", unit:21000, rentMid:2000, rentLow:1500, rentHigh:3200, priceMid:480000, priceLow:300000, priceHigh:750000},
+
+  // Group 3: Wider Regions
+  {key:"valencia_region", group:"Wider Regions", label:"Valencia Region", cities:"Gandía, Castellón, Sagunto", tag:"Affordable coastal towns", unit:14500, rentMid:900, rentLow:650, rentHigh:1300, priceMid:210000, priceLow:140000, priceHigh:350000},
+  {key:"madrid_outer", group:"Wider Regions", label:"Madrid Region — outer", cities:"Alcalá, Aranjuez, Sierra towns", tag:"Commuter belt", unit:15500, rentMid:1100, rentLow:800, rentHigh:1600, priceMid:280000, priceLow:180000, priceHigh:450000},
+  {key:"catalonia_wider", group:"Wider Regions", label:"Wider Catalonia", cities:"Girona, Tarragona, Lleida", tag:"Smaller cities & countryside", unit:15500, rentMid:1000, rentLow:700, rentHigh:1500, priceMid:260000, priceLow:160000, priceHigh:450000},
+
+  // Group 4: Popular Coasts
+  {key:"costa_del_sol", group:"Popular Coasts", label:"Costa del Sol", cities:"Málaga, Marbella, Estepona, Fuengirola", tag:"Luxury Mediterranean coast", unit:17500, rentMid:1500, rentLow:1100, rentHigh:2500, priceMid:380000, priceLow:220000, priceHigh:750000},
+  {key:"murcia", group:"Popular Coasts", label:"Murcia & Mar Menor", cities:"Murcia, Cartagena, San Pedro del Pinatar", tag:"Quietest expat coast", unit:15174, rentMid:700, rentLow:500, rentHigh:1100, priceMid:170000, priceLow:110000, priceHigh:280000},
+  {key:"andalusia_atlantic", group:"Popular Coasts", label:"Atlantic Andalusia", cities:"Cádiz, Tarifa, Conil, Vejer", tag:"Surf & wind coast", unit:14800, rentMid:950, rentLow:700, rentHigh:1400, priceMid:300000, priceLow:180000, priceHigh:500000},
+
+  // Group 5: Islands
+  {key:"mallorca", group:"Islands", label:"Mallorca", cities:"Palma, Sóller, Pollença", tag:"Premium island lifestyle", unit:17200, rentMid:2000, rentLow:1400, rentHigh:3200, priceMid:520000, priceLow:280000, priceHigh:900000},
+  {key:"ibiza_menorca", group:"Islands", label:"Ibiza & Menorca", cities:"Ibiza, Mahón, Ciutadella", tag:"Boutique island lifestyle", unit:18500, rentMid:2000, rentLow:1400, rentHigh:3500, priceMid:750000, priceLow:400000, priceHigh:1500000},
+  {key:"tenerife", group:"Islands", label:"Tenerife", cities:"Santa Cruz, Costa Adeje, Los Cristianos", tag:"Year-round warm island", unit:14800, rentMid:1300, rentLow:900, rentHigh:2000, priceMid:300000, priceLow:180000, priceHigh:500000},
+  {key:"gran_canaria", group:"Islands", label:"Gran Canaria", cities:"Las Palmas, Maspalomas", tag:"Year-round warm island", unit:14500, rentMid:1200, rentLow:850, rentHigh:1800, priceMid:270000, priceLow:160000, priceHigh:450000},
+
+  // Group 6: Other Spain
+  {key:"andalusia_inland", group:"Other Spain", label:"Inland Andalusia", cities:"Seville, Córdoba, Granada", tag:"Authentic Spanish city life", unit:14146, rentMid:800, rentLow:550, rentHigh:1200, priceMid:230000, priceLow:130000, priceHigh:350000},
+  {key:"galicia_coast", group:"Other Spain", label:"Galicia", cities:"A Coruña, Santiago, Vigo", tag:"Atlantic seafood coast", unit:16770, rentMid:850, rentLow:600, rentHigh:1200, priceMid:240000, priceLow:160000, priceHigh:400000},
+  {key:"basque_north", group:"Other Spain", label:"Bilbao & Basque Coast", cities:"Bilbao, San Sebastián, Santander", tag:"Cooler green north", unit:16670, rentMid:1200, rentLow:950, rentHigh:1800, priceMid:380000, priceLow:240000, priceHigh:600000},
+  {key:"inland_other", group:"Other Spain", label:"Inland Spain / Other", cities:"Aragon, Castilla y León, Extremadura, La Rioja", tag:"Rural & low-cost", unit:15000, rentMid:750, rentLow:500, rentHigh:1100, priceMid:160000, priceLow:90000, priceHigh:280000},
 ];
+
+/* Region group order for selector */
+const REGION_GROUPS = ["Costa Blanca", "Main Cities", "Wider Regions", "Popular Coasts", "Islands", "Other Spain"];
 
 /* Lifestyle tiers — multipliers + add-ons */
 const LIFESTYLE = {
@@ -880,25 +1612,68 @@ const LIFESTYLE = {
   luxury: {label:"Luxury", mult:2.75, hiTier:"premium", extras:["gym","eating_out_4pw","household_help","travel_buffer"]},
 };
 
-/* Health insurance by age band (monthly, EUR) */
+/* Health insurance by age band (monthly, EUR) — PER ADULT
+   Anna's Costa Blanca data:
+   - Under 50: €70/mo basic (most insurers accept easily)
+   - 50-60: €100-140 (still accessible)
+   - 60-70: €160/mo basic (fewer providers)
+   - 70+: €200/mo IF accepted at all — many insurers refuse new applicants over 70-75.
+     ASSSA (Costa Blanca specialist) accepts up to 75+. Secure BEFORE moving if you're near the cutoff.
+   Child: €30/mo basic. */
 const HI_BY_AGE = {
   under_50: {basic:70, mid:95, premium:140},
   "50_60": {basic:100, mid:140, premium:220},
   "60_70": {basic:160, mid:230, premium:330},
-  "70_plus": {basic:260, mid:360, premium:500},
+  "70_plus": {basic:200, mid:280, premium:400},
 };
 
-/* Schools — Anna's Costa Blanca South real prices */
-const SCHOOLS = [
-  {key:"public", label:"Public Spanish state", yr:200},
-  {key:"concertado", label:"Concertado (bilingual)", yr:2400},
-  {key:"intl_primary", label:"International — primary (~€400/mo)", yr:4000},     // €400 × 10 months
-  {key:"intl_secondary", label:"International — secondary (~€700/mo)", yr:7000}, // €700 × 10 months
-  {key:"intl_upper", label:"International — upper years (~€1,000-1,200/mo)", yr:11000}, // €1,100 × 10 months
-];
+/* Child HI monthly rate — Spain private (under-18 typical Costa Blanca) */
+const HI_CHILD_MONTHLY = {basic:30, mid:40, premium:55};
 
-/* Summer-camp annual buffer per school-age child (CB South: June+July covered, August nanny gap) */
-const SUMMER_CARE_ANNUAL = 1400; // ~€650 camps Jun+Jul mid + €750 nanny for August half-time
+/* Schools/childcare — Anna's Costa Blanca South real prices.
+   School/guardería is mandatory 0-16. Public school: free, but meals + materials ~€150/mo = €1,500/yr.
+   Some kids stay until 16:00 (extended care), which adds cost.
+   Private/international: tuition + €500-1000 registration + ~€300-500 uniform + materials.
+   Values are PER CHILD, applied to state.children. */
+const SCHOOL_TYPES = {
+  public: {
+    label: "Public Spanish state (free + €150/mo meals)",
+    yrPerChild: 1700,    // €150/mo × 10 mo meals + €200 materials/uniform/trips
+    note: "Mandatory from age 6. Free tuition. School year = 10 months (Sep–Jun). Meals €150/mo × 10 mo + €200 materials/uniform/trips. Extended care to 16:00 costs extra (~€50-80/mo). Summer (Jul-Aug) is separate — see optional 'Summer camps' below.",
+    custom: false
+  },
+  concertado: {
+    label: "Concertado (semi-private bilingual)",
+    yrPerChild: 2700,    // €200/mo × 10 mo "voluntary" donation + meals + uniform + materials
+    note: "Semi-private subsidised. School year = 10 months. €100-200/mo \"voluntary\" donation + meals + uniform + materials. Summer separate.",
+    custom: false
+  },
+  guarderia_private: {
+    label: "Private guardería (0-3 yrs)",
+    yrPerChild: 4200,    // €400/mo × 10 + €200 extras
+    note: "Private nursery for under-3s. Typically open 10 months (some open 11). ~€400/mo × 10 mo + registration/materials €200. Adjust below.",
+    custom: true,
+    defaultMonthly: 400
+  },
+  private_school: {
+    label: "Private Spanish school (3+ yrs)",
+    yrPerChild: 4700,    // ~€450/mo × 10 + €200 extras
+    note: "Non-subsidised private. School year = 10 months. €350-600/mo × 10 + enrolment + uniform + materials (~€200-500/yr). Adjust below.",
+    custom: true,
+    defaultMonthly: 450
+  },
+  international: {
+    label: "International school",
+    yrPerChild: 7200,    // €700/mo × 10 + €200 extras (mid range)
+    note: "British/American curriculum. School year = 10 months. €400/mo (primary) to €1,200/mo (upper years) × 10 + €500-1000 enrolment + uniform + materials. Adjust below.",
+    custom: true,
+    defaultMonthly: 700
+  }
+};
+const SCHOOL_TYPE_ORDER = ["public", "concertado", "guarderia_private", "private_school", "international"];
+
+/* Summer-camp annual buffer per school-age child (CB South: June+July camps + August nanny gap) */
+const SUMMER_CARE_ANNUAL = 1800; // ~€650 × 2 mo camps (Jun+Jul) + ~€500 nanny part-time for August
 
 /* Car / rental defaults */
 const CAR_OWN_ANNUAL = {
@@ -909,39 +1684,69 @@ const CAR_OWN_ANNUAL = {
 const CAR_RENTAL_DAYS_PER_YEAR = 60; // typical "occasional" use
 const CAR_RENTAL_DAILY = 30; // €25 standard, €40 minivan, €110-150 van — mid is around €30 for normal use
 
-/* Pet annual */
-const PET_ANNUAL = 900;
+/* Pet annual — vaccines €200-300, avg treatment €150-300/yr healthy adult, insurance €20/mo (€240), food €60/mo (€720) */
+const PET_ANNUAL = 900;  // Anna's avg estimate: typical dog/cat. Varies by animal type and special needs.
+                          // Real components per Anna: food, pet insurance €20/mo, vaccines €200-300, avg treatment €150-300/yr.
+                          // Exotic, large breeds, chronic conditions, or premium care can easily push this to €1,400+.
 
-/* Purchase tax rules */
+/* Purchase tax rules — keyed by region. Default applies to anything not listed. */
 const PURCHASE_TAX = {
+  // Valencia community (includes June 2026 ITP switch from 10% to 9%)
   cb_south: {region:"valencia", itp_resale:0.10, itp_resale_jun2026:0.09, vat_newbuild:0.10, ajd:0.015},
-  valencia_general: {region:"valencia", itp_resale:0.10, itp_resale_jun2026:0.09, vat_newbuild:0.10, ajd:0.015},
+  cb_central: {region:"valencia", itp_resale:0.10, itp_resale_jun2026:0.09, vat_newbuild:0.10, ajd:0.015},
+  cb_north: {region:"valencia", itp_resale:0.10, itp_resale_jun2026:0.09, vat_newbuild:0.10, ajd:0.015},
   valencia_city: {region:"valencia", itp_resale:0.10, itp_resale_jun2026:0.09, vat_newbuild:0.10, ajd:0.015},
-  andalusia: {region:"andalusia", itp_resale:0.07, vat_newbuild:0.10, ajd:0.012},
+  valencia_region: {region:"valencia", itp_resale:0.10, itp_resale_jun2026:0.09, vat_newbuild:0.10, ajd:0.015},
+  // Andalusia
+  andalusia_inland: {region:"andalusia", itp_resale:0.07, vat_newbuild:0.10, ajd:0.012},
+  andalusia_atlantic: {region:"andalusia", itp_resale:0.07, vat_newbuild:0.10, ajd:0.012},
   costa_del_sol: {region:"andalusia", itp_resale:0.07, vat_newbuild:0.10, ajd:0.012},
-  madrid: {region:"madrid", itp_resale:0.06, vat_newbuild:0.10, ajd:0.0075},
-  catalonia: {region:"catalonia", itp_resale:0.10, vat_newbuild:0.10, ajd:0.015},
-  barcelona_metro: {region:"catalonia", itp_resale:0.10, vat_newbuild:0.10, ajd:0.015},
-  balearic: {region:"balearic", itp_resale:0.09, vat_newbuild:0.10, ajd:0.015},
-  canary: {region:"canary", itp_resale:0.065, vat_newbuild:0.065, ajd:0.01},
+  // Madrid
+  madrid_city: {region:"madrid", itp_resale:0.06, vat_newbuild:0.10, ajd:0.0075},
+  madrid_outer: {region:"madrid", itp_resale:0.06, vat_newbuild:0.10, ajd:0.0075},
+  // Catalonia
+  barcelona_city: {region:"catalonia", itp_resale:0.10, vat_newbuild:0.10, ajd:0.015},
+  catalonia_wider: {region:"catalonia", itp_resale:0.10, vat_newbuild:0.10, ajd:0.015},
+  // Islands
+  mallorca: {region:"balearic", itp_resale:0.09, vat_newbuild:0.10, ajd:0.015},
+  ibiza_menorca: {region:"balearic", itp_resale:0.09, vat_newbuild:0.10, ajd:0.015},
+  tenerife: {region:"canary", itp_resale:0.065, vat_newbuild:0.065, ajd:0.01},
+  gran_canaria: {region:"canary", itp_resale:0.065, vat_newbuild:0.065, ajd:0.01},
+  // Others
   murcia: {region:"murcia", itp_resale:0.08, vat_newbuild:0.10, ajd:0.02},
-  /* others use general rates */
+  galicia_coast: {region:"galicia", itp_resale:0.09, vat_newbuild:0.10, ajd:0.015},
+  basque_north: {region:"basque", itp_resale:0.04, vat_newbuild:0.10, ajd:0.005},
+  inland_other: {region:"other", itp_resale:0.08, vat_newbuild:0.10, ajd:0.015},
   default: {region:"other", itp_resale:0.08, vat_newbuild:0.10, ajd:0.015},
 };
 
-/* Annual ownership defaults (CB South-specific where applicable) */
+/* Annual ownership defaults — keyed by region. Default applies to anything not listed. */
 const OWNERSHIP = {
   cb_south: {
-    ibi_apartment: 350, ibi_villa: 750, // mid Orihuela Costa / Torrevieja
+    ibi_apartment: 500, ibi_villa: 850, // Anna's CB South avg: ~€500 typical apt, villa higher cadastral
     rubbish: 180, home_ins_apt: 280, home_ins_villa: 550,
-    community_apt: 800, community_urbanisation: 1800, community_villa_isolated: 0,
+    community_apt: 700, community_urbanisation: 1800, community_villa_isolated: 0, // community 500-900 typical apt, urbanisation higher
     pool_private_yr: 1800, garden_yr: 1200,
     maintenance_pct: 0.005, // 0.5% of property value as reserve
   },
+  cb_central: {
+    ibi_apartment: 550, ibi_villa: 950,
+    rubbish: 180, home_ins_apt: 300, home_ins_villa: 580,
+    community_apt: 750, community_urbanisation: 1900, community_villa_isolated: 0,
+    pool_private_yr: 1800, garden_yr: 1200,
+    maintenance_pct: 0.005,
+  },
+  cb_north: {
+    ibi_apartment: 600, ibi_villa: 1100,
+    rubbish: 200, home_ins_apt: 320, home_ins_villa: 620,
+    community_apt: 850, community_urbanisation: 2100, community_villa_isolated: 0,
+    pool_private_yr: 1900, garden_yr: 1300,
+    maintenance_pct: 0.005,
+  },
   default: {
-    ibi_apartment: 450, ibi_villa: 900,
+    ibi_apartment: 550, ibi_villa: 1000,
     rubbish: 180, home_ins_apt: 300, home_ins_villa: 600,
-    community_apt: 1000, community_urbanisation: 2000, community_villa_isolated: 0,
+    community_apt: 800, community_urbanisation: 2000, community_villa_isolated: 0,
     pool_private_yr: 1800, garden_yr: 1200,
     maintenance_pct: 0.005,
   }
@@ -976,16 +1781,33 @@ const LIVING_MODULES = [
   }, hint:"~€3,500/yr (insurance, ITV, IVTM, fuel, maintenance, parking)"},
   {id:"car_rental", label:"Occasional car rental", default:false, annual:() => CAR_RENTAL_DAYS_PER_YEAR * CAR_RENTAL_DAILY,
     hint:"From €25/day standard · €40 minivan · €110–150 van. Default: 60 days/year × €30."},
-  {id:"pet", label:"Pet (dog or cat)", default:false, annual:() => PET_ANNUAL,
-    hint:"~€900/yr food, vet, insurance"},
-  {id:"nightout", label:"Nights out & cocktails", default:true, annual:(state) => {
-    const freq = state.mode === "luxury" ? 50 : state.mode === "comfortable" ? 30 : 12;
-    return freq * 35; // €35 per outing (couple, mid range cocktails+tapas)
-  }, hint:"Cocktail €5–€8, beer €3–€5 (frequent happy hours), menú del día €14–€18, buffet €18–€25"},
-  {id:"cinema", label:"Cinema & entertainment", default:false, annual:() => 360,
-    hint:"€5–€8 per ticket · monthly couple budget €30"},
-  {id:"summer_care", label:"Summer camps + August nanny (per school-age child)", default:false, annual:(state) => SUMMER_CARE_ANNUAL * Math.max(1, state.children),
-    hint:"€400–€900/month camps June+July · €7–€10/hr nanny for August"},
+  {id:"nightout", label:"Eating out, coffees & entertainment", default:true, annual:(state) => {
+    // Per person × all household members (adults + children). Scales with lifestyle tier.
+    const perPersonMonthly = state.mode === "luxury" ? 80 : state.mode === "comfortable" ? 60 : 40;
+    const people = state.adults + state.children;
+    return perPersonMonthly * 12 * people;
+  }, hint:"Per person/month: €40 baseline, €60 comfortable, €80 luxury. Scales with household size. Reference prices: dinner out €25-35/person (drinks extra), coffee €2.50, coffee + croissant €3.50-4.50, cocktail €5-8, bowling €14."},
+  {id:"cinema", label:"Cinema & specific entertainment (concerts, events)", default:false, annual:() => 360,
+    hint:"€5–€8 per cinema ticket. Budget €30/mo for couple covers monthly cinema + occasional event/concert ticket."},
+  {id:"gym", label:"Gym membership (per adult)", default:false, annual:(state) => 45 * 12 * state.adults,
+    hint:"€35-60/month per adult depending on facility. Basic chain (Basic-Fit, McFit) ~€30-40/mo. Mid-range (Altafit, Bodytone) ~€45-55/mo. Premium with pool/spa €60-90/mo. Default: €45/mo × 12 mo per adult."},
+  {id:"kids_sports", label:"Kids' sports & extracurriculars (per child)", default:false, annual:(state) => 47 * 12 * state.children,
+    hint:"€35-60/month per child. Football club, swimming, dance, judo, tennis, music school. Default: €47/mo × 12 mo per child. Many municipal options €20-30/mo; private clubs €60-90/mo."},
+  {id:"summer_care", label:"Summer camps + August nanny (per school-age child)", default:false, annual:(state) => SUMMER_CARE_ANNUAL * state.children,
+    hint:"€400–€900/month camps June+July · €7–€10/hr nanny for August. Default per child: ~€650/mo × 2 mo camps + ~€500 part-time nanny ≈ €1,800/yr."},
+  {id:"spanish_group", label:"Spanish lessons — public/group (€100/yr per adult)", default:false, annual:(state) => 100 * state.adults,
+    hint:"Escuela Oficial de Idiomas: €70–€150/yr public courses. Best value if you have time + patience."},
+  {id:"spanish_school", label:"Spanish lessons — private school (€70/mo per adult)", default:false, annual:(state) => 70 * 10 * state.adults,
+    hint:"Local academies: ~€70/month × 10 months. Group classes 2-3×/week."},
+  {id:"spanish_private", label:"Spanish lessons — 1-on-1 tutor (€22/hr × 2hr/wk per adult)", default:false, annual:(state) => 22 * 2 * 40 * state.adults,
+    hint:"€20–€25/hr private tutor. Fastest progress. Assumes 2hr/week × 40 weeks."},
+  {id:"shopping", label:"Clothes & shopping", default:false, annual:(state) => {
+    // Scales with household size + lifestyle
+    const perPerson = state.mode === "luxury" ? 2400 : state.mode === "comfortable" ? 1200 : 600;
+    const adults = state.adults * perPerson;
+    const kids = state.children * perPerson * 0.6;
+    return adults + kids;
+  }, hint:"€600/adult baseline (basics + replacements) → €1,200 comfortable → €2,400 luxury (Zara/Mango regular + occasional designer). Kids: ~60% of adult."},
 ];
 
 /* =============================================================
@@ -993,19 +1815,127 @@ const LIVING_MODULES = [
    ============================================================= */
 const state = {
   region: "cb_south",
-  adults: 2, children: 0, rent: 850, price: 220000, hi: 70,
+  adults: 2, children: 0, rent: 750, price: 220000, hi: 70,
+  hiOverride: false, // true when user manually edits HI input
+  rentOverride: false, // true when user manually edits rent
+  priceOverride: false, // true when user manually edits property price
   ageBand: "under_50",
   mode: "baseline",
-  strategy: "rent",     // rent / buy
+  strategy: "rent",     // rent / buy (internal — driven by scenario)
+  scenario: null,        // rent / buy / compare / own / explore — Step 0 selection
+  ownerMode: false,      // true when scenario==='own' — skips purchase math, shows ownership+living only
   residency: "resident", // resident / non_resident_eu / non_resident_world
-  propType: "resale", propStyle: "apartment", propLocation: "coastal", propPool: "community",
+  propType: "resale", propStyle: "apartment", propPool: "community",
+  cadastralPct: 0.5,    // BUG-7: % of market price assumed as cadastral value, for IRNR. CB South typical 30-70%; default 50%.
+  completionDate: null, // ISO yyyy-mm-dd; null = use today
+  // PHASE 7: Mortgage modeling
+  mortgage: {
+    enabled: false,
+    ltv: 0.70,       // % of price financed; resident default 70%, non-resident often 60-65%
+    rate: 0.035,     // annual fixed rate; 2026 Spanish avg ~3.3-3.7%
+    termYears: 25,
+    arrangementPct: 0.005, // bank arrangement fee as % of loan; 0-1% typical
+  },
   toggles: {}, edits: {},
   modules: {},
-  schoolChoices: {}, // child index → school key
+  schoolType: "public",          // single school choice for all children
+  schoolCustomMonthly: null,     // when type is custom-priced (private/intl/guardería), user can override €/mo per child
+  pets: 0,                       // number of pets (cats/dogs) in household
+  profile: "couple", // last-clicked profile chip (for restoration)
 };
 MOVE_CORE.forEach(i => state.toggles[i.id] = true);
 MOVE_OPT.forEach(i => state.toggles[i.id] = !!i.defaultOn);
 LIVING_MODULES.forEach(m => state.modules[m.id] = !!m.default);
+
+/* =============================================================
+   PERSISTENCE — localStorage save/restore
+   ============================================================= */
+const STORAGE_KEY = "phm_calc_v1";
+let _saveTimer = null;
+function persistState() {
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    try {
+      const snap = {
+        region: state.region, adults: state.adults, children: state.children,
+        rent: state.rent, price: state.price, hi: state.hi, hiOverride: state.hiOverride,
+        rentOverride: state.rentOverride, priceOverride: state.priceOverride,
+        ageBand: state.ageBand, mode: state.mode, strategy: state.strategy,
+        scenario: state.scenario, ownerMode: state.ownerMode, residency: state.residency,
+        propType: state.propType, propStyle: state.propStyle,
+        propPool: state.propPool, cadastralPct: state.cadastralPct,
+        completionDate: state.completionDate,
+        mortgage: state.mortgage,
+        toggles: state.toggles, edits: state.edits, modules: state.modules,
+        schoolType: state.schoolType,
+        schoolCustomMonthly: state.schoolCustomMonthly,
+        pets: state.pets,
+        profile: state.profile,
+        _v: 1
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(snap));
+    } catch(e) {}
+  }, 250);
+}
+function loadPersistedState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw);
+    if (!s || s._v !== 1) return null;
+    return s;
+  } catch(e) { return null; }
+}
+function applyPersistedState(s) {
+  if (!s) return;
+  ["region","ageBand","mode","strategy","residency","propType","propStyle","propPool","completionDate"]
+    .forEach(k => { if (s[k] != null) state[k] = s[k]; });
+  ["adults","children","rent","price","hi"].forEach(k => { if (s[k] != null) state[k] = +s[k]; });
+  if (typeof s.hiOverride === "boolean") state.hiOverride = s.hiOverride;
+  if (typeof s.rentOverride === "boolean") state.rentOverride = s.rentOverride;
+  if (typeof s.priceOverride === "boolean") state.priceOverride = s.priceOverride;
+  if (typeof s.ownerMode === "boolean") state.ownerMode = s.ownerMode;
+  if (s.mortgage && typeof s.mortgage === "object") {
+    Object.assign(state.mortgage, s.mortgage);
+  }
+  if (s.toggles) Object.assign(state.toggles, s.toggles);
+  if (s.modules) Object.assign(state.modules, s.modules);
+  if (s.edits) state.edits = s.edits;
+  if (s.schoolType && SCHOOL_TYPES[s.schoolType]) state.schoolType = s.schoolType;
+  if (s.schoolCustomMonthly != null) state.schoolCustomMonthly = +s.schoolCustomMonthly;
+  if (s.pets != null) state.pets = +s.pets;
+  if (s.profile) state.profile = s.profile;
+  if (s.cadastralPct != null) state.cadastralPct = +s.cadastralPct;
+  // Reflect into DOM
+  const setVal = (id, v) => { const el = document.getElementById(id); if (el && v != null) el.value = v; };
+  setVal("adults", state.adults); setVal("children", state.children);
+  setVal("rent", state.rent); setVal("price", state.price); setVal("hi", state.hi);
+  setVal("ageBand", state.ageBand); setVal("region", state.region);
+  setVal("propType", state.propType); setVal("propStyle", state.propStyle);
+  setVal("propPool", state.propPool);
+  setVal("schoolType", state.schoolType); setVal("pets", state.pets);
+  if (state.schoolCustomMonthly != null) setVal("schoolCustomMonthly", state.schoolCustomMonthly);
+  if (state.completionDate) setVal("completionDate", state.completionDate);
+  document.querySelectorAll("#lifestyleGroup button").forEach(b => b.classList.toggle("active", b.dataset.mode === state.mode));
+  const rbRestore = document.getElementById("residencyBuy");
+  if (rbRestore) rbRestore.value = state.residency;
+  const chipMap = { "1_0":"solo", "2_0":"couple", "2_1":"family1", "2_2":"family2" };
+  const chipKey = `${state.adults}_${state.children}`;
+  const activeProfile = state.profile || chipMap[chipKey];
+  document.querySelectorAll(".chip").forEach(c => c.classList.toggle("active", c.dataset.profile === activeProfile));
+  // PHASE 7: restore mortgage UI state
+  const finToggle = document.getElementById("financingToggle");
+  if (finToggle && state.mortgage) {
+    const finKey = state.mortgage.enabled ? "mortgage" : "cash";
+    finToggle.querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset.fin === finKey));
+  }
+  setVal("mortLtv", state.mortgage?.ltv);
+  const mr = document.getElementById("mortRate");
+  if (mr && state.mortgage) mr.value = (state.mortgage.rate * 100).toFixed(2);
+  setVal("mortTerm", state.mortgage?.termYears);
+  const ma = document.getElementById("mortArrangement");
+  if (ma && state.mortgage) ma.value = (state.mortgage.arrangementPct * 100).toFixed(2);
+}
 
 /* =============================================================
    HELPERS
@@ -1024,10 +1954,35 @@ function amountFor(item) {
   if (item.auto === "firstrent") return state.rent;
   if (state.edits[item.id] != null) return state.edits[item.id];
   if (item.autoFromAge && state.edits[item.id] == null) {
-    // Y1 health insurance: 12 months of mid-tier at user's age band
-    return HI_BY_AGE[state.ageBand][LIFESTYLE[state.mode].hiTier] * 12;
+    // Y1 health insurance: 12 months of HOUSEHOLD HI at user's age band
+    return calcHI().monthly * 12;
   }
   return item.amt;
+}
+
+/* Household HI: per-adult by age × adults + per-child × children
+   If user manually overrode the HI input (state.hiOverride === true), use state.hi as-is. */
+function calcHI() {
+  const tier = LIFESTYLE[state.mode].hiTier;
+  const adultRate = HI_BY_AGE[state.ageBand][tier];
+  const childRate = HI_CHILD_MONTHLY[tier];
+  const adultsCost = state.adults * adultRate;
+  const childrenCost = state.children * childRate;
+  const autoMonthly = adultsCost + childrenCost;
+  const monthly = state.hiOverride ? state.hi : autoMonthly;
+  const unavailable = state.ageBand === "70_plus";
+  return {
+    monthly,
+    annual: monthly * 12,
+    adultRate, childRate,
+    adultsCost, childrenCost,
+    autoMonthly,
+    isOverride: !!state.hiOverride,
+    breakdown: state.hiOverride
+      ? `manual override €${monthly}/mo`
+      : `${state.adults} adult${state.adults>1?'s':''} × €${adultRate}${state.children?` + ${state.children} child${state.children>1?'ren':''} × €${childRate}`:''}`,
+    unavailable
+  };
 }
 
 /* =============================================================
@@ -1039,34 +1994,50 @@ function calcLiving() {
   const cu = consumerUnits(state.adults, state.children);
   const mult = LIFESTYLE[state.mode].mult;
   const dayToDay = r.unit * cu * mult;
-  const annualRent = state.rent * 12;
-  const annualHI = state.hi * 12;
+  // Rent only applies when renting. When buying or already-owning, housing carrying
+  // costs (IBI, community fees, insurance, maintenance) live in calcOwnership.
+  // Utilities (water + electricity ~€150-350/mo) are already inside the INE day-to-day unit.
+  const isRenting = state.strategy === "rent";
+  const annualRent = isRenting ? state.rent * 12 : 0;
+
+  // Household HI: per-adult × adults + per-child × children
+  // state.hi input is treated as an OVERRIDE for the per-adult rate ONLY when user has manually edited it
+  const hi = calcHI();
+  const annualHI = hi.annual;
 
   // Modules
   let modulesTotal = 0;
   const moduleBreakdown = [];
   LIVING_MODULES.forEach(m => {
     if (state.modules[m.id]) {
-      // Special: summer_care only counts if children > 0
-      if (m.id === "summer_care" && state.children === 0) return;
+      // Skip child-only modules when no kids
+      if ((m.id === "summer_care" || m.id === "kids_sports") && state.children === 0) return;
       const v = typeof m.annual === "function" ? m.annual(state) : m.annual;
       modulesTotal += v;
       moduleBreakdown.push({label: m.label, amount: v});
     }
   });
 
-  // Schools
+  // Schools / childcare (per child)
+  // School year in Spain = 10 months (Sep–Jun). Summer (Jul–Aug) is optional — covered by `summer_care` module.
   let schoolsTotal = 0;
-  for (let i = 0; i < state.children; i++) {
-    const key = state.schoolChoices[i] || "public";
-    const school = SCHOOLS.find(s => s.key === key);
-    if (school) schoolsTotal += school.yr;
+  if (state.children > 0) {
+    const type = SCHOOL_TYPES[state.schoolType] || SCHOOL_TYPES.public;
+    let yrPerChild = type.yrPerChild;
+    if (type.custom && state.schoolCustomMonthly != null) {
+      // User-overridden tuition: monthly × 10 months + €200 enrolment/uniform/materials buffer (one-off annual extras)
+      yrPerChild = state.schoolCustomMonthly * 10 + 200;
+    }
+    schoolsTotal = yrPerChild * state.children;
   }
 
-  const annual = dayToDay + annualRent + annualHI + modulesTotal + schoolsTotal;
+  // Pets (count × annual cost per pet)
+  const petsTotal = (state.pets || 0) * PET_ANNUAL;
+
+  const annual = dayToDay + annualRent + annualHI + modulesTotal + schoolsTotal + petsTotal;
   return {
     cu, dayToDay, annualRent, annualHI, modulesTotal, moduleBreakdown,
-    schoolsTotal, annual, monthly: annual/12
+    schoolsTotal, petsTotal, annual, monthly: annual/12
   };
 }
 
@@ -1085,6 +2056,7 @@ function calcMove() {
 
 function calcPurchase() {
   if (state.strategy !== "buy") return null;
+  if (state.ownerMode) return null; // BUG-1: already own — no purchase math
   const tax = PURCHASE_TAX[state.region] || PURCHASE_TAX.default;
   const price = state.price;
   let transferTax, transferTaxLabel;
@@ -1093,12 +2065,19 @@ function calcPurchase() {
     transferTax = price * tax.vat_newbuild + price * tax.ajd;
     transferTaxLabel = `VAT (${(tax.vat_newbuild*100).toFixed(1)}%) + AJD (${(tax.ajd*100).toFixed(1)}%)`;
   } else {
-    // resale — Valencia June 2026 rate switch
+    // Resale — Valencia June 2026 rate switch: 10% before 1 June 2026, 9% from 1 June 2026.
+    // Use the user-selected completion date (state.completionDate) or default to today.
     let itpRate = tax.itp_resale;
     if (tax.itp_resale_jun2026) {
-      // For 2026 calculations, blend or pick newer rate — we'll show current (post-June)
-      itpRate = tax.itp_resale_jun2026;
-      transferTaxLabel = `ITP ${(itpRate*100).toFixed(1)}% (Valencia rate from June 2026)`;
+      const completion = state.completionDate ? new Date(state.completionDate) : new Date();
+      const cutoff = new Date("2026-06-01");
+      if (completion >= cutoff) {
+        itpRate = tax.itp_resale_jun2026;
+        transferTaxLabel = `ITP ${(itpRate*100).toFixed(1)}% (Valencia, completion ≥ 1 Jun 2026)`;
+      } else {
+        itpRate = tax.itp_resale;
+        transferTaxLabel = `ITP ${(itpRate*100).toFixed(1)}% (Valencia, completion before 1 Jun 2026)`;
+      }
     } else {
       transferTaxLabel = `ITP ${(itpRate*100).toFixed(1)}%`;
     }
@@ -1115,7 +2094,68 @@ function calcPurchase() {
   return {
     price, transferTax, transferTaxLabel,
     notary, registry, lawyer, gestoria, valuation,
-    total, pctOfPrice: (total/price)*100
+    feesTotal: total,           // taxes + fees only
+    total,                       // kept for backward compat
+    cashRequired: price + total, // FULL cash needed = price + all fees (cash purchase scenario)
+    pctOfPrice: price > 0 ? (total/price)*100 : 0
+  };
+}
+
+/* =============================================================
+   PHASE 7 — MORTGAGE MODELING
+   Standard amortization: M = P × r(1+r)^n / ((1+r)^n − 1)
+   where P = loan principal, r = monthly rate, n = total months
+   ============================================================= */
+function calcMortgage() {
+  const m = state.mortgage;
+  if (!m || !m.enabled) return null;
+  const price = state.price;
+  const ltv = Math.max(0.1, Math.min(0.9, +m.ltv || 0.70));
+  const annualRate = Math.max(0, Number.isFinite(+m.rate) ? +m.rate : 0.035);
+  const termYears = Math.max(5, Math.min(40, +m.termYears || 25));
+  const arrangementPct = Math.max(0, Math.min(0.03, Number.isFinite(+m.arrangementPct) ? +m.arrangementPct : 0.005));
+
+  const loan = price * ltv;
+  const deposit = price - loan;
+  const n = termYears * 12;
+  const r = annualRate / 12;
+  let monthlyPayment;
+  if (r === 0) {
+    monthlyPayment = loan / n;
+  } else {
+    monthlyPayment = loan * (r * Math.pow(1+r, n)) / (Math.pow(1+r, n) - 1);
+  }
+  const totalPaid = monthlyPayment * n;
+  const totalInterest = totalPaid - loan;
+  const arrangementFee = loan * arrangementPct;
+  // Y1 principal paid (approx by 12 monthly amortization steps)
+  let bal = loan, y1Principal = 0, y1Interest = 0;
+  for (let i = 0; i < 12 && bal > 0; i++) {
+    const interest = bal * r;
+    const principal = Math.min(monthlyPayment - interest, bal);
+    bal -= principal;
+    y1Principal += principal;
+    y1Interest += interest;
+  }
+  // 5-year principal paid
+  let bal5 = loan, p5 = 0, i5 = 0;
+  for (let i = 0; i < 60 && bal5 > 0; i++) {
+    const interest = bal5 * r;
+    const principal = Math.min(monthlyPayment - interest, bal5);
+    bal5 -= principal;
+    p5 += principal;
+    i5 += interest;
+  }
+  return {
+    enabled: true,
+    price, ltv, annualRate, termYears, arrangementPct,
+    loan, deposit, n,
+    monthlyPayment,
+    totalPaid, totalInterest,
+    arrangementFee,
+    y1Principal, y1Interest, y1Total: monthlyPayment * 12,
+    y5Principal: p5, y5Interest: i5, y5Total: monthlyPayment * 60,
+    remainingAfter5: loan - p5,
   };
 }
 
@@ -1130,15 +2170,21 @@ function calcOwnership() {
   if (state.propPool === "none") community = isVilla ? 0 : own.community_apt;
   else if (state.propPool === "community") community = isVilla ? own.community_urbanisation : own.community_apt + 400;
   else community = isVilla ? 0 : own.community_urbanisation; // private pool villa, no community
-  const pool = state.propPool === "private" ? own.pool_private_yr : 0;
+  // BUG-8: only villas have private pools — apartments never incur private-pool maintenance,
+  // even if persisted state has a stale propPool="private" value.
+  const pool = (state.propPool === "private" && isVilla) ? own.pool_private_yr : 0;
   const garden = isVilla ? own.garden_yr : 0;
   const maintenance = state.price * own.maintenance_pct;
 
   // IRNR for non-residents (deemed income tax on cadastral)
   let irnr = 0;
   if (state.residency !== "resident") {
-    // Estimate cadastral as ~50% of market price for CB South (typical)
-    const cadastral = state.price * 0.5;
+    // BUG-7: cadastral % is configurable. Default 50% (CB South typical, mid-range).
+    // Old assessments often ~30-40%; recent revisions 50-70%.
+    const cadPct = (typeof state.cadastralPct === "number" && state.cadastralPct > 0)
+      ? Math.min(0.9, Math.max(0.1, state.cadastralPct))
+      : 0.5;
+    const cadastral = state.price * cadPct;
     const deemedIncome = cadastral * 0.011; // 1.1% revised
     const rate = state.residency === "non_resident_eu" ? 0.19 : 0.24;
     irnr = deemedIncome * rate;
@@ -1153,15 +2199,128 @@ function calcOwnership() {
    ============================================================= */
 
 function buildRegionSelect() {
-  const sel = $("#region");
-  sel.innerHTML = "";
-  REGIONS.forEach(r => {
-    const o = document.createElement("option");
-    o.value = r.key;
-    o.textContent = r.label;
-    if (r.key === state.region) o.selected = true;
-    sel.appendChild(o);
+  // Build the grouped card picker inside the modal body
+  const body = document.getElementById("regionBody");
+  if (!body) return;
+  body.innerHTML = "";
+  REGION_GROUPS.forEach(groupName => {
+    const groupRegions = REGIONS.filter(r => r.group === groupName);
+    if (!groupRegions.length) return;
+    const groupDiv = document.createElement("div");
+    groupDiv.className = "rp-group";
+    groupDiv.dataset.group = groupName;
+    groupDiv.innerHTML = `<div class="rp-group-title">${groupName}</div><div class="rp-cards"></div>`;
+    const cardsWrap = groupDiv.querySelector(".rp-cards");
+    groupRegions.forEach(r => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "rp-card" + (r.key === state.region ? " selected" : "");
+      card.dataset.region = r.key;
+      // Searchable haystack stored as data attribute (label + cities + tag)
+      card.dataset.search = `${r.label} ${r.cities} ${r.tag}`.toLowerCase();
+      card.innerHTML = `
+        <span class="rp-card-title">${r.label}</span>
+        <span class="rp-card-tag">${r.tag}</span>
+        <span class="rp-card-cities">${r.cities}</span>
+      `;
+      card.addEventListener("click", () => selectRegion(r.key));
+      cardsWrap.appendChild(card);
+    });
+    body.appendChild(groupDiv);
   });
+  // Update the trigger button to reflect current state
+  updateRegionTrigger();
+}
+
+function updateRegionTrigger() {
+  const r = region();
+  const main = document.getElementById("rtMain");
+  const sub = document.getElementById("rtSub");
+  if (main) main.textContent = r.label;
+  if (sub) sub.textContent = r.cities;
+  // Keep hidden input in sync so existing code that reads $("#region").value still works
+  const hidden = document.getElementById("region");
+  if (hidden) hidden.value = r.key;
+}
+
+function selectRegion(key) {
+  const r = REGIONS.find(x => x.key === key);
+  if (!r) return;
+  state.region = key;
+  // Re-seed rent from region default if not manually edited
+  if (!state.rentOverride) {
+    state.rent = r.rentMid;
+    const rentInput = document.getElementById("rent");
+    if (rentInput) rentInput.value = state.rent;
+  }
+  // Re-seed property price from region default if not manually edited
+  if (!state.priceOverride && r.priceMid) {
+    state.price = r.priceMid;
+    const priceInput = document.getElementById("price");
+    if (priceInput) priceInput.value = state.price;
+  }
+  // Re-seed HI if not overridden (different region might shift expectations later)
+  if (!state.hiOverride) {
+    state.hi = calcHI().autoMonthly;
+    const hiInput = document.getElementById("hi");
+    if (hiInput) hiInput.value = state.hi;
+  }
+  // Update selected card visual
+  document.querySelectorAll(".rp-card").forEach(c => c.classList.toggle("selected", c.dataset.region === key));
+  updateRegionTrigger();
+  closeRegionModal();
+  renderAll();
+}
+
+function openRegionModal() {
+  const modal = document.getElementById("regionModal");
+  if (!modal) return;
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+  const trigger = document.getElementById("regionTrigger");
+  if (trigger) trigger.setAttribute("aria-expanded", "true");
+  // Focus filter
+  const f = document.getElementById("regionFilter");
+  if (f) { f.value = ""; filterRegionCards(""); setTimeout(() => f.focus(), 50); }
+}
+
+function closeRegionModal() {
+  const modal = document.getElementById("regionModal");
+  if (!modal) return;
+  modal.hidden = true;
+  document.body.style.overflow = "";
+  const trigger = document.getElementById("regionTrigger");
+  if (trigger) { trigger.setAttribute("aria-expanded", "false"); trigger.focus(); }
+}
+
+function filterRegionCards(query) {
+  const q = query.trim().toLowerCase();
+  const body = document.getElementById("regionBody");
+  if (!body) return;
+  let totalVisible = 0;
+  body.querySelectorAll(".rp-group").forEach(g => {
+    let groupVisible = 0;
+    g.querySelectorAll(".rp-card").forEach(card => {
+      const match = !q || card.dataset.search.includes(q);
+      card.style.display = match ? "" : "none";
+      if (match) groupVisible++;
+    });
+    g.style.display = groupVisible > 0 ? "" : "none";
+    totalVisible += groupVisible;
+  });
+  // Empty state
+  let empty = body.querySelector(".rp-empty");
+  if (totalVisible === 0) {
+    if (!empty) {
+      empty = document.createElement("div");
+      empty.className = "rp-empty";
+      empty.textContent = "No region matches. Try a different search, or pick from the closest area.";
+      body.appendChild(empty);
+    }
+    empty.style.display = "";
+  } else if (empty) {
+    empty.style.display = "none";
+  }
 }
 
 function renderItem(item, container) {
@@ -1198,8 +2357,10 @@ function renderLivingBreakdown() {
     {n: `× Your consumer units (${state.adults} adult${state.adults>1?'s':''}${state.children?', '+state.children+' child'+(state.children>1?'ren':''):''})`, v: c.cu, raw:true},
     {n: `× ${LIFESTYLE[state.mode].label} lifestyle multiplier (×${LIFESTYLE[state.mode].mult})`, v: LIFESTYLE[state.mode].mult, raw:true},
     {n: `= Annual day-to-day spending`, v: c.dayToDay, sub:true},
-    {n: `+ Annual rent (€${state.rent.toLocaleString()} × 12)`, v: c.annualRent},
-    {n: `+ Annual health insurance (€${state.hi} × 12)`, v: c.annualHI},
+    ...(state.strategy === "rent"
+      ? [{n: `+ Annual rent (€${state.rent.toLocaleString()} × 12)`, v: c.annualRent}]
+      : []),
+    {n: `+ Annual health insurance (${calcHI().breakdown}) × 12`, v: c.annualHI},
   ];
 
   const wrap = $("#livingBreakdown"); wrap.innerHTML = "";
@@ -1219,7 +2380,7 @@ function renderLivingBreakdown() {
 function renderLivingModules() {
   const wrap = $("#livingModules"); wrap.innerHTML = "";
   LIVING_MODULES.forEach(m => {
-    if (m.id === "summer_care" && state.children === 0) return; // hide if no kids
+    if ((m.id === "summer_care" || m.id === "kids_sports") && state.children === 0) return; // hide if no kids
     const on = state.modules[m.id];
     const v = typeof m.annual === "function" ? m.annual(state) : m.annual;
     const div = document.createElement("div");
@@ -1240,34 +2401,55 @@ function renderLivingModules() {
 }
 
 function renderSchools() {
-  const block = $("#schoolsBlock");
-  if (state.children === 0) { block.style.display = "none"; return; }
-  block.style.display = "";
-  const list = $("#schoolsList"); list.innerHTML = "";
-  for (let i = 0; i < state.children; i++) {
-    const current = state.schoolChoices[i] || "public";
-    const cost = SCHOOLS.find(s => s.key === current).yr;
-    const row = document.createElement("div");
-    row.className = "child-row";
-    row.innerHTML = `
-      <span class="child-label">Child ${i+1}</span>
-      <select data-child="${i}">${SCHOOLS.map(s => `<option value="${s.key}" ${s.key===current?'selected':''}>${s.label}</option>`).join("")}</select>
-      <span class="child-cost">${fmt(cost)}/yr</span>`;
-    list.appendChild(row);
+  const field = $("#schoolField");
+  if (!field) return;
+  if (state.children === 0) { field.style.display = "none"; return; }
+  field.style.display = "";
+
+  const sel = $("#schoolType");
+  if (sel) sel.value = state.schoolType;
+
+  const type = SCHOOL_TYPES[state.schoolType] || SCHOOL_TYPES.public;
+  const customWrap = $("#schoolCustomWrap");
+  const customInput = $("#schoolCustomMonthly");
+  if (type.custom) {
+    customWrap.style.display = "";
+    const monthly = state.schoolCustomMonthly != null ? state.schoolCustomMonthly : type.defaultMonthly;
+    if (customInput && document.activeElement !== customInput) {
+      customInput.value = monthly;
+      customInput.placeholder = String(type.defaultMonthly);
+    }
+  } else {
+    customWrap.style.display = "none";
   }
-  list.querySelectorAll('select[data-child]').forEach(sel => {
-    sel.onchange = e => {
-      state.schoolChoices[e.target.dataset.child] = e.target.value;
-      renderAll();
-    };
-  });
+
+  // Live cost preview — school year = 10 months + €200 one-off extras (enrolment, materials, uniform)
+  let yrPerChild = type.yrPerChild;
+  if (type.custom && state.schoolCustomMonthly != null) {
+    yrPerChild = state.schoolCustomMonthly * 10 + 200;
+  }
+  const total = yrPerChild * state.children;
+  const anchor = $("#schoolAnchor");
+  if (anchor) {
+    anchor.innerHTML = `<strong>€${yrPerChild.toLocaleString()}/yr per child</strong> × ${state.children} = €${total.toLocaleString()}/yr · ${type.note}`;
+  }
 }
 
 function renderPurchase() {
   const wrap = $("#purchaseBreakdown");
   if (state.strategy !== "buy") { wrap.innerHTML = ""; return; }
   const p = calcPurchase();
-  if (!p) return;
+  if (!p) {
+    // BUG-1: ownerMode → no purchase math; show ownership-only messaging
+    wrap.innerHTML = "";
+    if (state.ownerMode) {
+      const intro = document.getElementById("buyingIntro");
+      if (intro) intro.innerHTML = `You already own a <strong>${state.propStyle}</strong> in ${region().label}. No purchase costs apply — only annual ownership (IBI, community, insurance, maintenance${state.residency !== "resident" ? ", IRNR" : ""}). See the Ownership section below.`;
+      const buyingRegion = document.getElementById("buyingRegionLabel");
+      if (buyingRegion) buyingRegion.textContent = region().label;
+    }
+    return;
+  }
 
   const items = [
     {n: state.propType === "newbuild" ? "Purchase price (new build)" : "Purchase price (resale)", v: p.price, base:true},
@@ -1277,24 +2459,93 @@ function renderPurchase() {
     {n: "Lawyer (recommended, ~1% of price)", v: p.lawyer},
     {n: "Gestoría (admin processing)", v: p.gestoria},
   ];
-  if (p.valuation > 0) items.push({n: "Property valuation (if mortgage)", v: p.valuation});
+  if (p.valuation > 0) items.push({n: "Property valuation", v: p.valuation});
+  // Total cash required — separates fees from purchase clearly
+  items.push({n: "Subtotal: taxes & fees", v: p.feesTotal, subtotal:true});
+  const mortLocal = calcMortgage();
+  if (mortLocal) {
+    items.push({n: `Deposit (${((1-mortLocal.ltv)*100).toFixed(0)}% of price)`, v: mortLocal.deposit, subtotal:true});
+    items.push({n: `Mortgage arrangement (${(mortLocal.arrangementPct*100).toFixed(2)}%)`, v: mortLocal.arrangementFee, subtotal:true});
+    items.push({n: "TOTAL CASH TO CLOSE (with mortgage)", v: mortLocal.deposit + p.feesTotal + mortLocal.arrangementFee, grandtotal:true});
+  } else {
+    items.push({n: "TOTAL CASH REQUIRED FOR PURCHASE", v: p.cashRequired, grandtotal:true});
+  }
 
   wrap.innerHTML = "";
   items.forEach(it => {
     const row = document.createElement("div");
-    row.className = "item static" + (it.base ? "" : " indent");
+    row.className = "item static" + (it.base || it.subtotal || it.grandtotal ? "" : " indent");
     if (it.base) row.style.background = "#fafaf5";
+    if (it.subtotal) { row.style.background = "#f4f1e8"; row.style.borderTop = "1px solid var(--line)"; }
+    if (it.grandtotal) {
+      row.style.background = "var(--navy)";
+      row.style.color = "#fff";
+      row.style.fontWeight = "700";
+      row.style.borderTop = "2px solid var(--gold)";
+    }
+    const dotColor = it.grandtotal ? 'var(--gold)'
+                   : it.subtotal ? 'var(--slate)'
+                   : it.highlight ? 'var(--gold)'
+                   : it.base ? 'var(--navy)'
+                   : 'var(--emerald)';
     row.innerHTML = `
       <div class="item-head">
-        <div style="width:6px;height:6px;border-radius:50%;background:${it.highlight?'var(--gold)':it.base?'var(--navy)':'var(--emerald)'};flex-shrink:0;margin:0 6px 0 4px"></div>
-        <div class="item-name">${it.n}</div>
-        <div class="item-amount">${fmt(it.v)}</div>
+        <div style="width:6px;height:6px;border-radius:50%;background:${dotColor};flex-shrink:0;margin:0 6px 0 4px"></div>
+        <div class="item-name" ${it.grandtotal?'style="color:#fff;font-weight:700"':''}>${it.n}</div>
+        <div class="item-amount" ${it.grandtotal?'style="color:#fff;font-weight:700"':''}>${fmt(it.v)}</div>
       </div>`;
     wrap.appendChild(row);
   });
 
   $("#buyingRegionLabel").textContent = region().label;
-  $("#buyingIntro").innerHTML = `Buying a <strong>${state.propType === "newbuild" ? "new-build" : "resale"}</strong> ${state.propStyle} in ${region().label}. Total one-time purchase costs typically run <strong>${p.pctOfPrice.toFixed(1)}%</strong> on top of the asking price. Excludes mortgage costs.`;
+  const mortHere = calcMortgage();
+  if (mortHere) {
+    const cashClose = mortHere.deposit + p.feesTotal + mortHere.arrangementFee;
+    $("#buyingIntro").innerHTML = `Buying a <strong>${state.propType === "newbuild" ? "new-build" : "resale"}</strong> ${state.propStyle} in ${region().label} with a <strong>${(mortHere.ltv*100).toFixed(0)}% mortgage</strong>. Cash to close: <strong>${fmt(cashClose)}</strong> (deposit + taxes + fees). Monthly mortgage: <strong>${fmt(mortHere.monthlyPayment)}</strong>.`;
+  } else {
+    $("#buyingIntro").innerHTML = `Buying a <strong>${state.propType === "newbuild" ? "new-build" : "resale"}</strong> ${state.propStyle} in ${region().label} with <strong>cash</strong>. Total cash required at completion: <strong>${fmt(p.cashRequired)}</strong> (price + ~${p.pctOfPrice.toFixed(1)}% taxes &amp; fees).`;
+  }
+}
+
+function renderMortgage() {
+  const wrap = document.getElementById("mortgageBreakdown");
+  const summary = document.getElementById("financingSummary");
+  const panel = document.getElementById("mortgagePanel");
+  if (!wrap || !summary || !panel) return;
+
+  if (state.strategy !== "buy") {
+    panel.style.display = "none";
+    summary.style.display = "none";
+    wrap.innerHTML = "";
+    summary.innerHTML = "";
+    return;
+  }
+
+  const m = calcMortgage();
+  if (!m) {
+    panel.style.display = "none";
+    summary.style.display = "none";
+    wrap.innerHTML = "";
+    summary.innerHTML = "";
+    return;
+  }
+
+  panel.style.display = "";
+  summary.style.display = "";
+  summary.innerHTML = `<strong>${fmt(m.monthlyPayment)}/mo</strong> · ${fmt(m.deposit)} deposit · ${fmt(m.totalInterest)} total interest`;
+
+  wrap.innerHTML = `
+    <div class="mort-row"><span>Property price</span><span>${fmt(m.price)}</span></div>
+    <div class="mort-row"><span>Deposit (${((1-m.ltv)*100).toFixed(0)}%)</span><span>${fmt(m.deposit)}</span></div>
+    <div class="mort-row"><span>Loan amount (${(m.ltv*100).toFixed(0)}% LTV)</span><span>${fmt(m.loan)}</span></div>
+    <div class="mort-row"><span>Term × rate</span><span>${m.termYears}yr @ ${(m.annualRate*100).toFixed(2)}%</span></div>
+    <div class="mort-row"><span>Arrangement fee (${(m.arrangementPct*100).toFixed(2)}% of loan)</span><span>${fmt(m.arrangementFee)}</span></div>
+    <div class="mort-row highlight"><span>Monthly payment</span><span>${fmt(m.monthlyPayment)}</span></div>
+    <div class="mort-row"><span>Year 1 — principal paid</span><span>${fmt(m.y1Principal)}</span></div>
+    <div class="mort-row"><span>Year 1 — interest paid</span><span>${fmt(m.y1Interest)}</span></div>
+    <div class="mort-row"><span>After 5 years — loan balance</span><span>${fmt(m.remainingAfter5)}</span></div>
+    <div class="mort-row"><span>Total interest over ${m.termYears} years</span><span>${fmt(m.totalInterest)}</span></div>
+  `;
 }
 
 function renderOwnership() {
@@ -1331,58 +2582,606 @@ function renderOwnership() {
   $("#irnrNote").style.display = state.residency !== "resident" ? "" : "none";
 }
 
+// BUG-8: disable "Private pool" when style is apartment (apartments don't have private pools).
+// Called from propStyle handler and on first render.
+function syncPoolOptions() {
+  const sel = document.getElementById("propPool");
+  if (!sel) return;
+  const privateOpt = sel.querySelector('option[value="private"]');
+  if (!privateOpt) return;
+  if (state.propStyle === "apartment") {
+    privateOpt.disabled = true;
+    privateOpt.textContent = "Private pool (villas only)";
+    if (state.propPool === "private") {
+      state.propPool = "community";
+      sel.value = "community";
+    }
+  } else {
+    privateOpt.disabled = false;
+    privateOpt.textContent = "Private pool (villa)";
+  }
+}
+
 function renderResults() {
   const c = calcLiving();
   const m = calcMove();
   const p = state.strategy === "buy" ? calcPurchase() : null;
   const o = state.strategy === "buy" ? calcOwnership() : null;
+  const mort = state.strategy === "buy" ? calcMortgage() : null;
 
-  const rangeLiving = range(c.annual, 0.13);
-  const rangeMonthly = range(c.monthly, 0.13);
-  const rangeMove = range(m.total, 0.10);
-  const rangePurchase = p ? range(p.total, 0.05) : null; // narrower — tax-based
+  // For non-residents in buy mode: skip living costs (they don't live here full-time)
+  const livingApplies = !(state.strategy === "buy" && state.residency !== "resident");
+  const livingAnnual = livingApplies ? c.annual : 0;
+  const livingMonthly = livingApplies ? c.monthly : 0;
+  // BUG-1: owners don't have move-in costs (they already live there); non-residents don't either
+  const moveApplies = livingApplies && !state.ownerMode;
+  const moveTotal = moveApplies ? m.total : 0;
 
-  const y1 = c.annual + m.total + (p?.total || 0);
+  // Cash-to-close: with mortgage = deposit + fees + arrangement; without = price + fees
+  const cashToClose = p
+    ? (mort ? (mort.deposit + p.feesTotal + mort.arrangementFee) : p.cashRequired)
+    : 0;
+
+  const rangeLiving = range(livingAnnual, 0.13);
+  const rangeMonthly = range(livingMonthly, 0.13);
+  const rangeMove = range(moveTotal, 0.10);
+  const rangePurchase = p ? range(cashToClose, 0.05) : null;
+
+  // Y1 = cash to close + relocation + 12mo living + 12mo mortgage payments + 12mo ownership (IBI, community, insurance, maintenance, IRNR)
+  const y1Mortgage = mort ? mort.y1Total : 0;
+  const y1Ownership = o?.total || 0;
+  const y1 = livingAnnual + moveTotal + cashToClose + y1Mortgage + y1Ownership;
   const rangeY1 = range(y1, 0.10);
-  const y2plus = c.annual + (o?.total || 0);
+  const y2plus = livingAnnual + y1Ownership + y1Mortgage;
 
-  $("#rMonthly").textContent = fmt(c.monthly);
-  $("#rMonthlyRange").textContent = rangeFmt(rangeMonthly);
-  $("#rMonthlyMeta").textContent = LIFESTYLE[state.mode].label;
-  $("#rAnnual").textContent = fmt(c.annual);
-  $("#rAnnualRange").textContent = rangeFmt(rangeLiving);
-  $("#rAnnualMeta").textContent = `${region().label.split(' (')[0]} · ${state.adults}a${state.children?'+'+state.children+'c':''}`;
-  $("#rMove").textContent = fmt(m.total);
-  $("#rMoveRange").textContent = rangeFmt(rangeMove);
+  $("#rMonthly").textContent = livingApplies ? fmt(livingMonthly) : "Not in scope";
+  $("#rMonthlyRange").textContent = livingApplies ? rangeFmt(rangeMonthly) : "You're not living here full-time";
+  $("#rMonthlyMeta").textContent = livingApplies ? LIFESTYLE[state.mode].label : "Non-resident mode";
+  $("#rAnnual").textContent = livingApplies ? fmt(livingAnnual) : "Not in scope";
+  $("#rAnnualRange").textContent = livingApplies ? rangeFmt(rangeLiving) : "See annual ownership in Buying tab";
+  $("#rAnnualMeta").textContent = livingApplies
+    ? `${region().label} · ${state.adults}a${state.children?'+'+state.children+'c':''}`
+    : "Non-resident mode";
+  $("#rMove").textContent = moveApplies ? fmt(m.total) : "Not in scope";
+  $("#rMoveRange").textContent = moveApplies ? rangeFmt(rangeMove) : "No relocation";
   $("#rYear1").textContent = fmt(y1);
   $("#rYear1Range").textContent = rangeFmt(rangeY1);
-  $("#rYear1Meta").textContent = `Y2+ ongoing: ${fmt(y2plus)}/yr`;
+  $("#rYear1Meta").textContent = livingApplies
+    ? `Y2+ ongoing: ${fmt(y2plus)}/yr`
+    : `Property purchase only · Y2+: ${fmt((o?.total || 0) + y1Mortgage)}/yr`;
 
   if (state.strategy === "buy" && p) {
     $("#statPurchase").style.display = "";
-    $("#rPurchase").textContent = fmt(p.total);
-    $("#rPurchaseRange").textContent = `${p.pctOfPrice.toFixed(1)}% of price`;
-    $("#rPurchaseMeta").textContent = state.propType === "newbuild" ? "VAT + AJD + fees" : "ITP + fees";
+    // Label and value depend on whether mortgage is enabled
+    const purchaseLabelEl = document.querySelector('#statPurchase .label');
+    if (purchaseLabelEl) {
+      purchaseLabelEl.textContent = mort ? "Cash to close (with mortgage)" : "Cash to close (price + taxes + fees)";
+    }
+    $("#rPurchase").textContent = fmt(cashToClose);
+    if (mort) {
+      $("#rPurchaseRange").textContent = `Deposit ${fmt(mort.deposit)} + fees ${fmt(p.feesTotal + mort.arrangementFee)}`;
+      $("#rPurchaseMeta").textContent = `Mortgage: ${fmt(mort.monthlyPayment)}/mo · ${(mort.ltv*100).toFixed(0)}% LTV @ ${(mort.annualRate*100).toFixed(2)}% fixed`;
+    } else {
+      $("#rPurchaseRange").textContent = `Price ${fmt(p.price)} + fees ${fmt(p.feesTotal)}`;
+      $("#rPurchaseMeta").textContent = state.propType === "newbuild" ? "VAT + AJD + fees" : "ITP + fees";
+    }
   } else {
     $("#statPurchase").style.display = "none";
   }
 
-  $("#livingTotal").textContent = fmt(c.annual);
-  $("#moveTotal").textContent = fmt(m.total);
-  if (p) $("#purchaseTotal").textContent = fmt(p.total);
+  $("#livingTotal").textContent = livingApplies ? fmt(c.annual) : "—";
+  $("#moveTotal").textContent = moveApplies ? fmt(m.total) : "—";
+  if (p) $("#purchaseTotal").textContent = fmt(cashToClose);
   if (o) $("#ownershipTotal").textContent = fmt(o.total);
+
+  // Visually mute cards that don't apply (non-resident buyer)
+  const monthlyCard = document.getElementById("rMonthly")?.closest('.stat');
+  const annualCard = document.getElementById("rAnnual")?.closest('.stat');
+  const moveCard = document.getElementById("rMove")?.closest('.stat');
+  [monthlyCard, annualCard, moveCard].forEach(card => {
+    if (!card) return;
+    card.classList.toggle("muted", !livingApplies);
+  });
 
   $("#modeLabelTotal").textContent = LIFESTYLE[state.mode].label;
   $("#livingModeLabel").textContent = LIFESTYLE[state.mode].label;
+
+  // Range note — clarifies what's included for non-residents
+  const rn = $("#rangeNote");
+  if (rn) {
+    if (state.strategy === "buy" && state.residency !== "resident") {
+      rn.innerHTML = `<strong>Non-resident buy mode:</strong> Year 1 = property price + taxes &amp; fees only. Spanish day-to-day living costs and relocation setup are NOT included — you're not moving here full-time. Annual ownership (IBI, community, Modelo 210 IRNR) is shown in the Buying tab.`;
+    } else {
+      rn.innerHTML = `Figures shown ± a realistic variance for your lifestyle, area within the region, and choices. Hover/tap items below for what's included &amp; what's not.`;
+    }
+  }
+
+  // Disable Cost of Living + Relocation tabs in non-res buy mode (force Buying tab)
+  const nonResBuy = state.strategy === "buy" && state.residency !== "resident";
+  const tabLiving = document.querySelector('[data-tab="living"]');
+  const tabMove = document.querySelector('[data-tab="move"]');
+  if (tabLiving) tabLiving.classList.toggle("disabled", nonResBuy);
+  if (tabMove) tabMove.classList.toggle("disabled", nonResBuy);
+  if (nonResBuy && document.querySelector('.tab.active')?.dataset.tab !== "buying") {
+    switchTab("buying");
+  }
+
+  // Phase 3: render explainers + assumptions panel
+  renderExplainers(c, m, p, o, y1, y2plus, livingApplies, moveApplies, mort, cashToClose);
+  renderAssumptions(c, m, p, o);
+}
+
+/* =============================================================
+   PHASE 3 — EXPLAINERS & ASSUMPTIONS
+   ============================================================= */
+
+function exRow(label, value) {
+  return `<div class="ex-row"><span>${label}</span><span>${value}</span></div>`;
+}
+
+function renderExplainers(c, m, p, o, y1, y2plus, livingApplies, moveApplies, mort, cashToClose) {
+  const r = region();
+  const hi = calcHI();
+  const lifestyle = LIFESTYLE[state.mode];
+
+  // --- Monthly explainer ---
+  const monthlyEl = document.getElementById("explainMonthly");
+  if (monthlyEl) {
+    if (!livingApplies) {
+      monthlyEl.innerHTML = `<div class="ex-warn">Not included: you selected non-resident buyer mode, so day-to-day Spanish living costs aren't part of this calculation.</div>`;
+    } else {
+      monthlyEl.innerHTML = `
+        <div class="ex-formula">monthly = (regional unit × consumer units × lifestyle mult${state.strategy === "rent" ? " + rent×12" : ""} + HI×12 + modules + schools) ÷ 12</div>
+        ${exRow("Regional unit (" + r.label + ")", "€" + r.unit.toLocaleString() + "/yr")}
+        ${exRow("Consumer units (" + state.adults + "a" + (state.children?"+"+state.children+"c":"") + ")", c.cu.toFixed(2))}
+        ${exRow("Lifestyle multiplier", "×" + lifestyle.mult + " (" + lifestyle.label + ")")}
+        ${exRow("Day-to-day annual", fmt(c.dayToDay))}
+        ${state.strategy === "rent" ? exRow("+ Rent (€" + state.rent + " × 12)", fmt(c.annualRent)) : exRow("Rent (you're buying — see Buying tab for IBI/community)", "—")}
+        ${exRow("+ HI (" + hi.breakdown + ")", fmt(c.annualHI))}
+        ${exRow("+ Modules", fmt(c.modulesTotal))}
+        ${exRow("+ Schools", fmt(c.schoolsTotal))}
+        ${c.petsTotal ? exRow("+ Pets (" + state.pets + " × €" + PET_ANNUAL + "/yr)", fmt(c.petsTotal)) : ""}
+        ${exRow("Annual total ÷ 12", fmt(c.monthly))}
+        <div class="ex-source">Source: INE 2024 household survey + 2.5% inflation. Consumer units follow OECD-modified scale (1st adult 1.0, extra adult 0.5, child 0.3). Utilities (water + electricity €150-€350/mo coastal) included in day-to-day.</div>
+      `;
+    }
+  }
+
+  // --- Annual explainer ---
+  const annualEl = document.getElementById("explainAnnual");
+  if (annualEl) {
+    if (!livingApplies) {
+      annualEl.innerHTML = `<div class="ex-warn">Not included for non-resident buyers.</div>`;
+    } else {
+      annualEl.innerHTML = `
+        ${exRow("Day-to-day (region × units × lifestyle)", fmt(c.dayToDay))}
+        ${exRow("Annual rent", fmt(c.annualRent))}
+        ${exRow("Annual HI (" + hi.breakdown + ")", fmt(c.annualHI))}
+        ${exRow("Optional modules", fmt(c.modulesTotal))}
+        ${exRow("Schools", fmt(c.schoolsTotal))}
+        ${c.petsTotal ? exRow("Pets", fmt(c.petsTotal)) : ""}
+        ${exRow("TOTAL", fmt(c.annual))}
+        <div class="ex-source">Range shown is ±13% to reflect area-within-region and lifestyle variance. Doesn't include Spanish income tax (resident worldwide income), wealth tax, or summer A/C spikes.</div>
+      `;
+    }
+  }
+
+  // --- Move explainer ---
+  const moveEl = document.getElementById("explainMove");
+  if (moveEl) {
+    if (!moveApplies) {
+      moveEl.innerHTML = `<div class="ex-warn">Not included: non-resident buyers aren't relocating.</div>`;
+    } else {
+      const items = m.items.map(i => exRow(i.name, fmt(i.amt))).join("");
+      moveEl.innerHTML = `
+        ${items}
+        ${exRow("TOTAL", fmt(m.total))}
+        <div class="ex-source">Year-1 setup only. Shipping is the biggest variable (€2k–€14k+). Health insurance Y1 paid upfront for visa applications.</div>
+      `;
+    }
+  }
+
+  // --- Purchase explainer ---
+  const purchaseEl = document.getElementById("explainPurchase");
+  if (purchaseEl && p) {
+    const isValencia = !!(PURCHASE_TAX[state.region] || {}).itp_resale_jun2026;
+    const completion = state.completionDate ? new Date(state.completionDate) : new Date();
+    const cutoff = new Date("2026-06-01");
+    const dateNote = isValencia
+      ? `Valencia ITP rate depends on completion date. Your selected date (${state.completionDate}) is ${completion >= cutoff ? "ON OR AFTER" : "BEFORE"} 1 June 2026.`
+      : "";
+    const mortRows = mort ? `
+      ${exRow(`Deposit (${((1-mort.ltv)*100).toFixed(0)}% of price)`, fmt(mort.deposit))}
+      ${exRow("Subtotal fees", fmt(p.feesTotal))}
+      ${exRow(`Mortgage arrangement (${(mort.arrangementPct*100).toFixed(2)}%)`, fmt(mort.arrangementFee))}
+      ${exRow("CASH TO CLOSE", fmt(cashToClose))}
+      <div class="ex-source">Mortgage: ${(mort.ltv*100).toFixed(0)}% LTV · ${(mort.annualRate*100).toFixed(2)}% fixed · ${mort.termYears}yr term → ${fmt(mort.monthlyPayment)}/mo. Loan amount ${fmt(mort.loan)}; total interest over term ${fmt(mort.totalInterest)}.</div>
+    ` : `
+      ${exRow("Subtotal fees", fmt(p.feesTotal))}
+      ${exRow("TOTAL CASH NEEDED", fmt(p.cashRequired))}
+    `;
+    purchaseEl.innerHTML = `
+      ${exRow("Property price", fmt(p.price))}
+      ${exRow(p.transferTaxLabel, fmt(p.transferTax))}
+      ${exRow("Notary (capped 800–1,500)", fmt(p.notary))}
+      ${exRow("Land Registry (capped 500–900)", fmt(p.registry))}
+      ${exRow("Lawyer (~1% of price, 1.5k–3.5k cap)", fmt(p.lawyer))}
+      ${exRow("Gestoría", fmt(p.gestoria))}
+      ${p.valuation > 0 ? exRow("Valuation", fmt(p.valuation)) : ""}
+      ${mortRows}
+      ${dateNote ? `<div class="ex-source">${dateNote}</div>` : ""}
+      <div class="ex-source">${mort ? "AJD on mortgage deed paid by bank (2018 Spanish law). " : ""}Notary/Registry caps typical for €100k–€500k; high-value transactions may exceed.</div>
+    `;
+  }
+
+  // --- Year 1 explainer ---
+  const y1El = document.getElementById("explainYear1");
+  if (y1El) {
+    const lines = [];
+    if (p) {
+      if (mort) {
+        lines.push(exRow(`Deposit (${((1-mort.ltv)*100).toFixed(0)}% of price)`, fmt(mort.deposit)));
+        lines.push(exRow("Purchase taxes & fees", fmt(p.feesTotal)));
+        lines.push(exRow("Mortgage arrangement", fmt(mort.arrangementFee)));
+        lines.push(exRow(`12 × mortgage payment (${fmt(mort.monthlyPayment)}/mo)`, fmt(mort.y1Total)));
+      } else {
+        lines.push(exRow("Property price", fmt(p.price)));
+        lines.push(exRow("Purchase taxes & fees", fmt(p.feesTotal)));
+      }
+    }
+    if (moveApplies) lines.push(exRow("Relocation setup", fmt(m.total)));
+    if (livingApplies) lines.push(exRow("12 months living", fmt(c.annual)));
+    lines.push(exRow("YEAR 1 ALL-IN", fmt(y1)));
+    let extra = "";
+    if (livingApplies) extra = `<div class="ex-source">From Year 2 onwards, expect ${fmt(y2plus)}/yr (living + ${p ? (mort ? "ownership + mortgage payments" : "annual ownership costs") : "no purchase costs"}).</div>`;
+    if (!livingApplies) extra = `<div class="ex-source">Non-resident mode: Year 1 = property purchase cash${mort ? " + mortgage payments" : ""}. Annual ownership (IBI, community, Modelo 210) shown in Buying tab.</div>`;
+    y1El.innerHTML = lines.join("") + extra;
+  }
+}
+
+function renderAssumptions(c, m, p, o) {
+  const el = document.getElementById("assumptionsBody");
+  if (!el) return;
+  const r = region();
+  const hi = calcHI();
+  const lifestyle = LIFESTYLE[state.mode];
+
+  let html = `
+    <h6>Cost-of-living model</h6>
+    <ul>
+      <li>Regional unit cost (<code>€${r.unit.toLocaleString()}/yr</code>) from <strong>INE 2024 household survey</strong> + 2.5% inflation for 2026.</li>
+      <li>Consumer units use OECD-modified scale: 1st adult = 1.0, each extra adult = 0.5, each child &lt;14 = 0.3.</li>
+      <li>Lifestyle multipliers — Baseline ×1.0, Comfortable ×1.75, Luxury ×2.75. Currently: <strong>${lifestyle.label} (×${lifestyle.mult})</strong>.</li>
+      <li>Range bands shown are ±13% on annual and monthly, ±10% on move costs, ±5% on purchase costs.</li>
+    </ul>
+
+    <h6>Health insurance</h6>
+    <ul>
+      <li>Household HI = adults × per-adult rate + children × per-child rate. Currently: <code>${hi.breakdown} = €${hi.monthly}/mo</code>.</li>
+      <li>Per-adult rates by age band &amp; tier: under 50 €70–140, 50–60 €100–220, 60–70 €160–330, 70+ €260–500.</li>
+      <li>Per-child rates: basic €30, mid €40, premium €55.</li>
+      <li>${hi.unavailable ? "<strong>⚠ Age 70+:</strong> many insurers cap new applicants at 65–75. ASSSA (Costa Blanca specialist) accepts up to 75+." : ""}</li>
+    </ul>
+  `;
+
+  if (p) {
+    html += `
+      <h6>Property purchase</h6>
+      <ul>
+        <li>Total cash required = property price + taxes + fees. Currently: <code>${fmt(p.price)} + ${fmt(p.feesTotal)} = ${fmt(p.cashRequired)}</code>.</li>
+        <li>${p.transferTaxLabel}.</li>
+        <li>Notary and Registry capped at typical tariffs for €100k–€500k properties.</li>
+        <li>Lawyer estimate = max(€1,500, min(€3,500, 1% of price)).</li>
+        <li><strong>Excludes:</strong> mortgage arrangement fees, AJD on mortgage deed, broker fees, currency-exchange costs.</li>
+      </ul>
+    `;
+  }
+
+  if (o) {
+    html += `
+      <h6>Annual ownership</h6>
+      <ul>
+        <li>IBI (council tax), rubbish, home insurance, community fees vary by property style and pool setup.</li>
+        <li>Maintenance reserve assumed at <strong>0.5% of property value per year</strong> — this is a recommended <em>reserve</em>, not an expected annual spend.</li>
+        <li>${state.residency !== "resident" ? `<strong>Modelo 210 (IRNR):</strong> ${state.residency === "non_resident_eu" ? "19%" : "24%"} on deemed income (1.1% × cadastral value, currently set at <strong>${((state.cadastralPct||0.5)*100).toFixed(0)}%</strong> of market price — adjust above). This is the most-missed annual obligation for foreign owners.` : "Residents: not subject to Modelo 210 imputed-income tax on this property."}</li>
+      </ul>
+    `;
+  }
+
+  html += `
+    <h6>What is NOT included</h6>
+    <ul>
+      <li>Spanish income tax on worldwide income (residents only — applies after 183 days in Spain).</li>
+      <li>Wealth tax (varies sharply by region — Madrid ~0%, Catalonia much higher).</li>
+      <li>Community special assessments (<em>derramas</em>) for major repairs — can hit €2,000–€10,000+ without warning.</li>
+      <li>Currency-exchange costs if your income is in another currency.</li>
+      <li>Summer A/C electricity spikes (€150–€250/mo July–August on the coast).</li>
+      <li>Income gap while a new business or client base is being established.</li>
+    </ul>
+
+    <h6>Data freshness</h6>
+    <ul>
+      <li>INE 2024 data with 2.5% inflation projection to 2026.</li>
+      <li>Idealista 2024/25 rent and price ranges; Anna's local Costa Blanca data for CB South / Central / North.</li>
+      <li>Valencia ITP 10% → 9% switch on <strong>1 June 2026</strong> is hard-coded.</li>
+      <li>Tax rates current as of May 2026 — verify with a tax adviser before commitment.</li>
+    </ul>
+
+    <p style="margin-top:14px; font-size:11.5px; font-style:italic;">Estimates only — not financial, legal, or tax advice. For a tailored figure, contact Anna directly.</p>
+  `;
+
+  el.innerHTML = html;
+}
+
+/* =============================================================
+   PHASE 5 — RENT VS BUY COMPARE + EXPLORE QUIZ
+   ============================================================= */
+
+function renderRentVsBuy() {
+  const block = document.getElementById("rentVsBuyBlock");
+  if (!block) return;
+  // Only show when scenario === "compare"
+  if (state.scenario !== "compare") {
+    block.style.display = "none";
+    return;
+  }
+  block.style.display = "";
+
+  // Compute rent scenario
+  const savedStrategy = state.strategy;
+  state.strategy = "rent";
+  const rentLiving = calcLiving();
+  const rentMove = calcMove();
+  const rentY1 = rentLiving.annual + rentMove.total;
+  const rentMonthly = rentLiving.monthly;
+
+  // Compute buy scenario
+  state.strategy = "buy";
+  const buyLiving = calcLiving();
+  const buyMove = calcMove();
+  const buyPurchase = calcPurchase();
+  const buyOwnership = calcOwnership();
+  const buyMortgage = calcMortgage();
+
+  // Cash to close: with mortgage = deposit + fees + arrangement; without = full price + fees
+  const buyCashToClose = buyMortgage
+    ? (buyMortgage.deposit + buyPurchase.feesTotal + buyMortgage.arrangementFee)
+    : buyPurchase.cashRequired;
+  const monthlyMortgage = buyMortgage ? buyMortgage.monthlyPayment : 0;
+
+  // Monthly: living (no rent in buy mode) + ownership/12 + mortgage payment
+  const buyMonthly = buyLiving.monthly + (buyOwnership.total / 12) + monthlyMortgage;
+  // Y1 = cash to close + move + 12mo living (no rent, calcLiving handles) + ownership + 12mo mortgage
+  const buyY1 = buyCashToClose + buyMove.total + buyLiving.annual + buyOwnership.total + monthlyMortgage*12;
+
+  state.strategy = savedStrategy;
+
+  // Breakeven: how many months for rent's recurring cost to equal buy's monthly carry, applied to upfront premium
+  const rentRecurring = rentLiving.annual; // includes rent×12 etc.
+  const buyRecurringWithoutPurchase = buyLiving.annual + buyOwnership.total + monthlyMortgage*12;
+  const buyUpfrontPremium = buyCashToClose + buyMove.total - rentMove.total;
+  const monthlyDelta = (rentRecurring - buyRecurringWithoutPurchase) / 12; // positive if rent costs more per month
+  let breakevenYears = null;
+  if (monthlyDelta > 0) breakevenYears = buyUpfrontPremium / (monthlyDelta * 12);
+
+  // 5-year equity: deposit + principal paid over 5 years (if mortgage); else full price
+  const buy5yEquity = buyMortgage
+    ? (buyMortgage.deposit + buyMortgage.y5Principal)
+    : buyPurchase.price;
+
+  // Render grid
+  const grid = document.getElementById("rvbGrid");
+  if (!grid) return;
+  grid.innerHTML = `
+    <div class="rvb-col rvb-rent">
+      <div class="rvb-header">🏠 Renting</div>
+      <div class="rvb-num">${fmt(rentMonthly)}<small>/month</small></div>
+      <div class="rvb-row"><span>Move-in cash</span><span>${fmt(rentMove.total)}</span></div>
+      <div class="rvb-row"><span>Year-1 cash total</span><span>${fmt(rentY1)}</span></div>
+      <div class="rvb-row"><span>5-year total cash</span><span>${fmt(rentY1 + rentLiving.annual*4)}</span></div>
+      <div class="rvb-row"><span>Equity built</span><span>—</span></div>
+    </div>
+    <div class="rvb-col rvb-buy">
+      <div class="rvb-header">🔑 Buying ${buyMortgage ? `(${(buyMortgage.ltv*100).toFixed(0)}% mortgage)` : "(cash)"}</div>
+      <div class="rvb-num">${fmt(buyMonthly)}<small>/month</small></div>
+      <div class="rvb-row"><span>${buyMortgage ? "Cash to close" : "Upfront cash for purchase"}</span><span>${fmt(buyCashToClose)}</span></div>
+      ${buyMortgage ? `<div class="rvb-row"><span>Mortgage payment</span><span>${fmt(monthlyMortgage)}/mo</span></div>` : ""}
+      <div class="rvb-row"><span>Year-1 cash total</span><span>${fmt(buyY1)}</span></div>
+      <div class="rvb-row"><span>5-year total cash</span><span>${fmt(buyY1 + buyRecurringWithoutPurchase*4)}</span></div>
+      <div class="rvb-row"><span>Equity after 5 yrs</span><span>${fmt(buy5yEquity)}</span></div>
+    </div>
+  `;
+
+  // Verdict
+  const verdict = document.getElementById("rvbVerdict");
+  if (!verdict) return;
+  let verdictHTML = "";
+  if (monthlyDelta > 0 && breakevenYears !== null) {
+    if (breakevenYears < 4) {
+      verdictHTML = `<strong>Buying pulls ahead after ~${breakevenYears.toFixed(1)} years.</strong> If you plan to stay 5+ years and have the cash, buying is likely cheaper long-term. If &lt;3 years, rent.`;
+    } else if (breakevenYears < 8) {
+      verdictHTML = `<strong>Breakeven around year ${breakevenYears.toFixed(1)}.</strong> Buying makes sense if you're staying long-term (8+ years). For 3–5 year horizons, rent is cleaner.`;
+    } else {
+      verdictHTML = `<strong>Breakeven beyond year ${breakevenYears.toFixed(0)}.</strong> Buying is mostly a lifestyle/equity choice here, not a cost-saving one. Rent unless you specifically want to own.`;
+    }
+  } else {
+    verdictHTML = `<strong>Renting is cheaper per month in this scenario.</strong> Buying makes sense only for lifestyle, stability, or equity-building reasons — not pure cash flow.`;
+  }
+  verdictHTML += `<br><small>${buyMortgage ? `Mortgage modelled at ${(buyMortgage.annualRate*100).toFixed(2)}% fixed, ${buyMortgage.termYears}-yr term. ` : ""}Doesn't include: property appreciation, opportunity cost of capital, currency risk. Talk to Anna for a full analysis.</small>`;
+  verdict.innerHTML = verdictHTML;
+}
+
+/* Explore quiz — 5 questions → recommended scenario */
+const EXPLORE_QUESTIONS = [
+  {
+    id: "horizon",
+    q: "How long do you plan to be in Spain?",
+    options: [
+      {k:"short", label:"Under 2 years"},
+      {k:"medium", label:"2–5 years"},
+      {k:"long", label:"5–10 years"},
+      {k:"forever", label:"Indefinitely / forever"},
+    ]
+  },
+  {
+    id: "cash",
+    q: "How much upfront cash do you have available?",
+    options: [
+      {k:"low", label:"Under €30k"},
+      {k:"medium", label:"€30k–€80k"},
+      {k:"high", label:"€80k–€250k"},
+      {k:"vhigh", label:"€250k+"},
+    ]
+  },
+  {
+    id: "residency",
+    q: "Will you live in Spain full-time (6+ months/year)?",
+    options: [
+      {k:"yes", label:"Yes, full-time"},
+      {k:"no", label:"No — second home / partial year"},
+      {k:"unsure", label:"Not sure yet"},
+    ]
+  },
+  {
+    id: "stage",
+    q: "What's your family stage?",
+    options: [
+      {k:"solo", label:"Solo"},
+      {k:"couple", label:"Couple, no kids"},
+      {k:"family", label:"Family with kids"},
+      {k:"retired", label:"Retirees"},
+    ]
+  },
+  {
+    id: "priority",
+    q: "What matters more right now?",
+    options: [
+      {k:"flexibility", label:"Flexibility — try Spain before committing"},
+      {k:"stability", label:"Stability — settle in a long-term home"},
+      {k:"equity", label:"Building equity / asset ownership"},
+      {k:"costsaving", label:"Lowest monthly cost"},
+    ]
+  },
+];
+
+const exploreAnswers = {};
+
+function renderExploreQuiz() {
+  const wrap = document.getElementById("exploreQuiz");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  EXPLORE_QUESTIONS.forEach((qDef, idx) => {
+    const div = document.createElement("div");
+    div.className = "explore-q";
+    div.innerHTML = `
+      <div class="eq-num">${idx+1}</div>
+      <div class="eq-body">
+        <div class="eq-question">${qDef.q}</div>
+        <div class="eq-options">
+          ${qDef.options.map(o => `<button class="eq-opt" data-q="${qDef.id}" data-k="${o.k}">${o.label}</button>`).join("")}
+        </div>
+      </div>
+    `;
+    wrap.appendChild(div);
+  });
+  // Wire up
+  wrap.querySelectorAll(".eq-opt").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const q = btn.dataset.q;
+      const k = btn.dataset.k;
+      exploreAnswers[q] = k;
+      // Mark selected within question
+      wrap.querySelectorAll(`.eq-opt[data-q="${q}"]`).forEach(x => x.classList.remove("selected"));
+      btn.classList.add("selected");
+      // If all answered, compute recommendation
+      if (Object.keys(exploreAnswers).length === EXPLORE_QUESTIONS.length) {
+        showExploreResult();
+      }
+    });
+  });
+}
+
+function showExploreResult() {
+  const a = exploreAnswers;
+  // Simple decision logic
+  let recommended = "rent";
+  let reasons = [];
+
+  // Short horizon or low cash → rent
+  if (a.horizon === "short" || a.cash === "low") {
+    recommended = "rent";
+    if (a.horizon === "short") reasons.push("Under 2 years is too short to recover purchase costs (~11% of price in taxes & fees).");
+    if (a.cash === "low") reasons.push("Under €30k upfront isn't enough for a typical purchase — Costa Blanca minimums are €30k+ on a €200k property.");
+  }
+  // Non-resident with property interest → buy non-resident
+  else if (a.residency === "no" && (a.cash === "high" || a.cash === "vhigh")) {
+    recommended = "buy";
+    reasons.push("As a non-resident with sufficient capital, you're a typical second-home buyer.");
+    reasons.push("Plan for Modelo 210 (annual IRNR tax on imputed income).");
+  }
+  // Long horizon + decent cash + stability priority → buy
+  else if ((a.horizon === "long" || a.horizon === "forever") && (a.cash === "medium" || a.cash === "high" || a.cash === "vhigh") && (a.priority === "stability" || a.priority === "equity")) {
+    recommended = "buy";
+    reasons.push("Long horizon + sufficient cash + stability priority = buying typically pays off within 5–8 years.");
+  }
+  // Family with kids + long horizon → buy (school stability)
+  else if (a.stage === "family" && (a.horizon === "long" || a.horizon === "forever") && a.cash !== "low") {
+    recommended = "buy";
+    reasons.push("Families with kids benefit from school + neighbourhood stability that ownership provides.");
+  }
+  // Retirees with capital + indefinite stay → buy
+  else if (a.stage === "retired" && a.horizon === "forever" && (a.cash === "high" || a.cash === "vhigh")) {
+    recommended = "buy";
+    reasons.push("Retirees with capital and indefinite stay typically buy — avoids rental volatility, builds estate.");
+  }
+  // Cost-saving priority + medium horizon → compare
+  else if (a.priority === "costsaving" && a.horizon === "medium") {
+    recommended = "compare";
+    reasons.push("Cost-saving priority + 2–5 year horizon — needs side-by-side math to see which wins.");
+  }
+  // Default: medium horizon, unsure residency → rent first
+  else {
+    recommended = "rent";
+    reasons.push("Medium horizon with unsure residency — renting first is the lower-risk move. You can always buy later.");
+  }
+
+  // Rough affordability range
+  let affordability = "";
+  if (a.cash === "low") affordability = "Realistic property range: under €120k (very limited options, mostly inland).";
+  else if (a.cash === "medium") affordability = "Realistic property range: €150k–€250k (Costa Blanca South 1-bed apartments, inland villas).";
+  else if (a.cash === "high") affordability = "Realistic property range: €280k–€500k (Costa Blanca South 2-3 bed, some North, inland Andalusia villas).";
+  else if (a.cash === "vhigh") affordability = "Realistic property range: €500k+ (full range — Costa Blanca North villas, Costa del Sol, Mallorca).";
+
+  // Render result
+  const resultEl = document.getElementById("exploreResult");
+  if (!resultEl) return;
+  resultEl.style.display = "";
+  const scenarioMap = {rent:"Rent a home first", buy:"Buy a property", compare:"Run the Compare calculator"};
+  resultEl.innerHTML = `
+    <div class="er-card">
+      <div class="er-label">Recommended starting point</div>
+      <div class="er-title">${scenarioMap[recommended]}</div>
+      <ul class="er-reasons">
+        ${reasons.map(r => `<li>${r}</li>`).join("")}
+      </ul>
+      ${affordability ? `<div class="er-afford"><strong>Budget reality check:</strong> ${affordability}</div>` : ""}
+      <button class="btn btn-primary er-go" data-go="${recommended}">Continue with ${scenarioMap[recommended]} →</button>
+    </div>
+  `;
+  // Wire continue button
+  resultEl.querySelector(".er-go").addEventListener("click", () => {
+    enterScenario(recommended);
+  });
+  resultEl.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
 
 function renderCompare() {
   const cu = consumerUnits(state.adults, state.children);
   const mult = LIFESTYLE[state.mode].mult;
   // Use only autonomous-community-level regions (skip subzones except CB South which we keep)
-  const rows = REGIONS.filter(r => !r.parent || r.key === "cb_south").map(r => {
+  const rows = REGIONS.map(r => {
     const annual = r.unit * cu * mult;
-    return {key: r.key, label: r.label.split(' (')[0], annual, focus: r.key === state.region};
+    return {key: r.key, label: r.label, annual, focus: r.key === state.region};
   }).sort((a,b) => a.annual - b.annual);
   const max = Math.max(...rows.map(r => r.annual));
   const min = rows[0].annual;
@@ -1403,16 +3202,31 @@ function renderCompare() {
 
 function renderAnchors() {
   const r = region();
-  $("#rentAnchor").innerHTML = `Typical 2-bed long-term: <strong>€${r.rentLow.toLocaleString()}–€${r.rentHigh.toLocaleString()}</strong> · mid €${r.rentMid.toLocaleString()}`;
+  $("#rentAnchor").innerHTML = `Long-term market: <strong>€${r.rentLow.toLocaleString()}–€${r.rentHigh.toLocaleString()}</strong> · normal family home (~70–100 m²) around €${r.rentMid.toLocaleString()}`;
   if ($("#priceAnchor")) {
-    const sampleRange = state.region === "cb_south" ? "€180k–€350k" :
-                        state.region === "barcelona_metro" ? "€350k–€700k+" :
-                        state.region === "costa_del_sol" ? "€280k–€600k+" :
-                        state.region === "madrid" ? "€300k–€650k+" : "Varies widely";
-    $("#priceAnchor").innerHTML = `Typical 2-bed apartment: <strong>${sampleRange}</strong>`;
+    const lowK = Math.round(r.priceLow/1000);
+    const highK = r.priceHigh >= 1000000 ? `${(r.priceHigh/1000000).toFixed(1)}M` : `${Math.round(r.priceHigh/1000)}k`;
+    const midK = Math.round(r.priceMid/1000);
+    $("#priceAnchor").innerHTML = `Property range: <strong>€${lowK}k–€${highK}</strong> · typical 2-3 bed ~€${midK}k`;
   }
-  const hi = HI_BY_AGE[state.ageBand][LIFESTYLE[state.mode].hiTier];
-  $("#hiAnchor").innerHTML = `Age-banded suggestion: <strong>€${hi}/mo</strong> (${LIFESTYLE[state.mode].hiTier} tier)`;
+  const hi = calcHI();
+  $("#hiAnchor").innerHTML = hi.isOverride
+    ? `Manual override · auto would be <strong>€${hi.autoMonthly}/mo</strong>`
+    : `${hi.breakdown} = <strong>€${hi.monthly}/mo</strong>${hi.unavailable?' · ⚠ Many insurers cap at 65–75':''}`;
+
+  // Completion date anchor (only shown for Valencia regions)
+  const completionAnchor = document.getElementById("completionAnchor");
+  if (completionAnchor) {
+    const tax = PURCHASE_TAX[state.region] || PURCHASE_TAX.default;
+    if (tax.itp_resale_jun2026 && state.completionDate) {
+      const completion = new Date(state.completionDate);
+      const cutoff = new Date("2026-06-01");
+      const rate = completion >= cutoff ? tax.itp_resale_jun2026 : tax.itp_resale;
+      completionAnchor.innerHTML = `Active ITP rate: <strong>${(rate*100).toFixed(1)}%</strong>${completion >= cutoff ? ' (post 1 Jun 2026)' : ' (before 1 Jun 2026)'}`;
+    } else {
+      completionAnchor.innerHTML = '';
+    }
+  }
 }
 
 /* =============================================================
@@ -1424,6 +3238,23 @@ function renderInsights() {
   const saves = [];
   const corners = [];
 
+  // === UNIVERSAL — always relevant ===
+
+  // Surprise: taxi reality
+  surprises.push("Taxis are surprisingly expensive: a 20–30 min ride is often €60 (€30 on popular routes). Apps are only just emerging — most people still call by phone. Strict zone rules mean drivers may refuse to pick you up from certain points or drop you in the next town. Plan transport in advance.");
+
+  // Universal save: bikes/scooters
+  saves.push("Replace short car trips with bike, e-bike or scooter. Coastal towns are flat, infrastructure is improving, and you'll save on fuel, parking, ITV and the second car altogether.");
+
+  // Universal save: menú del día + happy hours
+  saves.push("Menú del día (3 courses, often €13–€17 weekday lunch) is the best-value meal in Spain. Happy hours run early evening — cocktails €5–€8 normally, but €3–€5 in promo slots.");
+
+  // Universal corner: buyer's agent (your differentiator)
+  corners.push("Get a local expert on your side — someone who actually walks the neighbourhoods, knows the schools, and explains how each area really works. In Spain, the seller's agent commission is built into both rental prices and sale prices (technically illegal in rentals, but it's how the market still operates). You're already paying that fee — but those agents work for the seller, not you. A buyer's agent represents you, negotiates against the bias, and typically saves more than their fee.");
+
+  // Universal corner: alarm system
+  corners.push("Install an alarm system from day one — whether you rent, summer there, or live full-time. It's the first thing to set up. If you bought, change all the locks too: you have no idea how many copies the previous owner, cleaners or workmen have.");
+
   // Strategy-based
   if (state.strategy === "buy") {
     surprises.push("ITP/AJD plus fees add 10–13% to the asking price in Year 1 — most buyers underestimate this.");
@@ -1434,7 +3265,7 @@ function renderInsights() {
     corners.push("Don't skip the lawyer (€1,500–€3,500). They catch debts attached to the property, illegal extensions, urbanistic issues.");
     corners.push("Get sold-comparables data — not just Idealista asking prices — before making an offer.");
     saves.push("Resale apartments in Costa Blanca South: €1,800–€3,000/m² coastal, €1,200–€2,100/m² inland.");
-    if (state.region === "cb_south" || state.region === "valencia_general") {
+    if (["cb_south","cb_central","cb_north","valencia_city","valencia_region"].includes(state.region)) {
       saves.push("Valencia ITP drops from 10% to 9% on 1 June 2026 — timing your purchase could save 1% of price.");
     }
   } else {
@@ -1445,14 +3276,14 @@ function renderInsights() {
   }
 
   // Region-specific
-  if (state.region === "cb_south") {
-    surprises.push("Summer A/C electricity in Costa Blanca South: €150–€250/month July–August (~2× spring bills).");
+  if (["cb_south","cb_central","cb_north"].includes(state.region)) {
+    surprises.push("Summer A/C electricity in Costa Blanca: €150–€250/month July–August (~2× spring bills).");
     surprises.push("August on the Costa Blanca = beach holiday for all of Europe. Restaurants packed, prices up, traffic doubled. Plan around it.");
   }
-  if (state.region === "barcelona_metro" || state.region === "madrid") {
+  if (state.region === "barcelona_city" || state.region === "madrid_city") {
     surprises.push("Major-city rents have risen 13–15% in the last 12 months — your budget may be out of date.");
   }
-  if (state.region === "balearic" || state.region === "costa_del_sol") {
+  if (["mallorca","ibiza_menorca","costa_del_sol"].includes(state.region)) {
     surprises.push("Tourist-zone premium: rent and dining are 20–35% higher than nearby non-tourist areas.");
   }
 
@@ -1460,13 +3291,13 @@ function renderInsights() {
   if (state.children > 0) {
     surprises.push("International school: €400/mo primary up to €1,200/mo upper years × 10-month year. Bilingual concertado is a small fraction.");
     surprises.push("August has almost no summer camps — budget €7–€10/hr for nanny or family help during this gap.");
-    corners.push("Pick the school first, then the property. Good concertados fill by April for next September.");
+    corners.push("Pick the school first, then the property. Good schools fill by May for next September — once you've found the right one, look at homes within its catchment.");
   }
 
   // Age-specific
   if (state.ageBand === "60_70" || state.ageBand === "70_plus") {
     surprises.push("Health insurance: most major insurers cap new applicants at 65–75. ASSSA (Costa Blanca specialist) accepts up to 75+ — secure your policy before moving if you're close to the cutoff.");
-    corners.push("Don't underbudget private healthcare — at 70+, expect €260–€500/month for visa-compliant no-copay coverage.");
+    corners.push("Don't underbudget private healthcare — at 70+, expect €200–€400/month for visa-compliant no-copay coverage, and only some insurers will accept new applicants at all.");
   }
 
   // Tax-specific
@@ -1478,12 +3309,11 @@ function renderInsights() {
   // Lifestyle-specific
   if (state.mode === "luxury") {
     corners.push("Premium private health insurance is worth it at this tier — better hospital networks, English support, no waiting periods.");
-    saves.push("Eating out costs are flexible: menú del día €14–€18 vs €60+ tasting menus. Most locals do the former.");
   }
-  saves.push("Cocktails €5–€8 outside happy hour, €3–€5 beer — the Costa Blanca night-out economy is very gentle.");
-  saves.push("Renting a car for occasional use (€25/day) is cheaper than ownership unless you drive daily.");
   if (state.modules.car_own) {
     saves.push("Used Spanish cars are cheaper than imported. Cargo cost + Spanish ITV homologation rarely pays off vs buying locally.");
+  } else {
+    saves.push("Renting a car for occasional use (€25/day) is cheaper than ownership unless you drive daily.");
   }
 
   // Move-cost
@@ -1502,7 +3332,19 @@ function renderAskAnna() {
   const c = calcLiving();
   const m = calcMove();
   const p = state.strategy === "buy" ? calcPurchase() : null;
-  const y1 = c.annual + m.total + (p?.total || 0);
+  const o = state.strategy === "buy" ? calcOwnership() : null;
+  const mort = state.strategy === "buy" ? calcMortgage() : null;
+
+  // Mirror renderResults: non-residents in buy mode skip living/move; owners skip move
+  const livingApplies = !(state.strategy === "buy" && state.residency !== "resident");
+  const livingAnnual = livingApplies ? c.annual : 0;
+  const moveTotal = (livingApplies && !state.ownerMode) ? m.total : 0;
+  const cashToClose = p
+    ? (mort ? (mort.deposit + p.feesTotal + mort.arrangementFee) : p.cashRequired)
+    : 0;
+  const y1Mortgage = mort ? mort.y1Total : 0;
+  const y1Ownership = o?.total || 0;
+  const y1 = livingAnnual + moveTotal + cashToClose + y1Mortgage + y1Ownership;
 
   const household = state.adults === 1 ? "Solo" :
                     state.adults === 2 && state.children === 0 ? "Couple, no kids" :
@@ -1512,7 +3354,7 @@ function renderAskAnna() {
     ? `buying a ${state.propType === "newbuild" ? "new-build" : "resale"} ${state.propStyle} ~€${(state.price/1000).toFixed(0)}k`
     : `renting at ~€${state.rent}/month`;
   const lifestyleText = LIFESTYLE[state.mode].label;
-  const regionText = region().label.split(' (')[0];
+  const regionText = region().label;
 
   const message =
 `Hi Anna, I just used your calculator.
@@ -1523,7 +3365,7 @@ Lifestyle: ${lifestyleText}.
 
 Y1 all-in estimate: ${fmt(y1)}
 Annual cost of living: ${fmt(c.annual)}
-${p ? "Y1 purchase costs: " + fmt(p.total) : ""}
+${p ? "Cash to close: " + fmt(cashToClose) : ""}
 
 I'd like to talk about my actual situation.`;
 
@@ -1536,16 +3378,20 @@ I'd like to talk about my actual situation.`;
    RENDER ALL
    ============================================================= */
 function renderAll() {
+  syncPoolOptions(); // BUG-8: keep pool field consistent with property style
   renderLivingBreakdown();
   renderLivingModules();
   renderSchools();
   renderResults();
   renderPurchase();
+  renderMortgage();
   renderOwnership();
   renderCompare();
+  renderRentVsBuy();
   renderAnchors();
   renderInsights();
   renderAskAnna();
+  persistState();
   // refresh move amounts in case rent changed deposit/first-rent
   document.querySelectorAll('[data-toggle]').forEach(btn => {
     const id = btn.dataset.toggle;
@@ -1608,54 +3454,288 @@ function attachModuleHandlers() {
 function applyProfile(profile) {
   // Reset edits when applying profile
   state.edits = {};
+  state.profile = profile;
+  // Reset overrides — profile sets its own values
+  state.rentOverride = false;
+  state.priceOverride = false;
+  // Reset school + pets to baseline; profiles can re-set below
+  state.schoolType = "public";
+  state.schoolCustomMonthly = null;
+  state.pets = 0;
+  // BUG-10: reset all living modules to their defaults — profiles re-set what they need
+  LIVING_MODULES.forEach(m => state.modules[m.id] = !!m.default);
   switch(profile) {
     case "solo":
       state.adults = 1; state.children = 0; state.mode = "baseline";
-      state.region = "cb_south"; state.rent = 650;
+      state.region = "cb_south"; state.rent = 600;
       break;
     case "couple":
       state.adults = 2; state.children = 0; state.mode = "baseline";
-      state.region = "cb_south"; state.rent = 850;
+      state.region = "cb_south"; state.rent = 750;
       break;
     case "family1":
       state.adults = 2; state.children = 1; state.mode = "comfortable";
-      state.region = "cb_south"; state.rent = 1100;
+      state.region = "cb_south"; state.rent = 1000;
+      state.modules.kids_sports = true;
       break;
     case "family2":
       state.adults = 2; state.children = 2; state.mode = "comfortable";
-      state.region = "cb_south"; state.rent = 1300;
+      state.region = "cb_south"; state.rent = 1200;
+      state.modules.kids_sports = true;
       break;
     case "retiree":
       state.adults = 2; state.children = 0; state.mode = "comfortable";
-      state.ageBand = "60_70"; state.region = "cb_south"; state.rent = 950;
+      state.ageBand = "60_70"; state.region = "cb_south"; state.rent = 900;
       state.modules.car_own = true;
       break;
     case "remote":
       state.adults = 2; state.children = 0; state.mode = "comfortable";
-      state.region = "cb_south"; state.rent = 1100;
-      state.modules.car_rental = true;
+      state.region = "cb_south"; state.rent = 1000;
+      state.modules.car_rental = true; state.modules.gym = true;
       break;
     case "luxury":
       state.adults = 2; state.children = 2; state.mode = "luxury";
-      state.region = "cb_south"; state.rent = 1800;
+      state.region = "cb_south"; state.rent = 2000;
       state.modules.car_own = true; state.modules.nightout = true;
       state.modules.cinema = true; state.modules.summer_care = true;
-      for (let i = 0; i < 2; i++) state.schoolChoices[i] = "intl_primary";
+      state.modules.gym = true; state.modules.kids_sports = true;
+      state.schoolType = "international";
       break;
   }
   // Sync UI
   $("#adults").value = state.adults;
   $("#children").value = state.children;
   $("#region").value = state.region;
+  updateRegionTrigger();
+  // Update card selection state
+  document.querySelectorAll(".rp-card").forEach(c => c.classList.toggle("selected", c.dataset.region === state.region));
   $("#rent").value = state.rent;
   $("#ageBand").value = state.ageBand;
-  state.hi = HI_BY_AGE[state.ageBand][LIFESTYLE[state.mode].hiTier];
+  const schoolSelP = $("#schoolType"); if (schoolSelP) schoolSelP.value = state.schoolType;
+  const petsSelP = $("#pets"); if (petsSelP) petsSelP.value = state.pets;
+  state.hiOverride = false;
+  state.hi = calcHI().autoMonthly;
   $("#hi").value = state.hi;
   // Sync pill groups
   document.querySelectorAll("#lifestyleGroup button").forEach(b => b.classList.toggle("active", b.dataset.mode === state.mode));
   // Sync chips
   document.querySelectorAll(".chip").forEach(c => c.classList.toggle("active", c.dataset.profile === profile));
   renderAll();
+}
+
+/* =============================================================
+   PHASE 4 — STEP 0 SCENARIO PICKER
+   ============================================================= */
+
+function showStep0() {
+  // pushes history entry so back button works
+  if (!history.state || history.state.view !== "step0") {
+    history.pushState({ view: "step0" }, "", "");
+  }
+  showStep0NoHistory();
+}
+function showStep0NoHistory() {
+  document.getElementById("step0").style.display = "";
+  document.getElementById("calcWrapper").hidden = true;
+  state.scenario = null;
+  persistState();
+  document.getElementById("step0").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function enterScenario(scenario) {
+  // Push history entry so browser back returns to Step 0
+  if (!history.state || history.state.scenario !== scenario) {
+    history.pushState({ view: "calc", scenario }, "", "");
+  }
+  enterScenarioNoHistory(scenario);
+}
+function enterScenarioNoHistory(scenario) {
+  state.scenario = scenario;
+  state.ownerMode = (scenario === "own");
+  document.getElementById("step0").style.display = "none";
+  document.getElementById("calcWrapper").hidden = false;
+
+  const backLabelMap = {
+    rent: "Renting",
+    buy: "Buying",
+    compare: "Comparing rent vs buy",
+    own: "Already own",
+    explore: "Exploring"
+  };
+  document.getElementById("backLabel").textContent = backLabelMap[scenario] || "";
+
+  const strategyRow = document.getElementById("strategyRow");
+  if (strategyRow) strategyRow.style.display = scenario === "compare" ? "" : "none";
+
+  if (scenario === "rent") setStrategy("rent");
+  else if (scenario === "buy") setStrategy("buy");
+  else if (scenario === "own") setStrategy("buy");
+  else if (scenario === "compare") setStrategy("rent");
+  else if (scenario === "explore") setStrategy("rent");
+
+  applyScenarioUI(scenario);
+  resetWizardSteps(); // re-evaluate wizard step progression for this scenario
+  persistState();
+  document.getElementById("calcWrapper").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+/* =============================================================
+   PHASE 6 — LIGHTWEIGHT WIZARD
+   - 3 steps: Who → Where&What → Results/Tabs
+   - Returning users default to "expert mode" (all visible at once)
+   - First-time visitors get the wizard
+   - "Explore" scenario skips wizard entirely (it has its own quiz)
+   - "Own" scenario skips step 2 rent fields, etc — handled by applyScenarioUI
+   ============================================================= */
+let wizardCurrentStep = 1;
+let wizardExpertMode = false;
+const WIZARD_DISMISSED_KEY = "phm_wizard_expert_v1";
+
+function isWizardApplicable() {
+  // Explore has its own quiz flow — skip wizard
+  return state.scenario && state.scenario !== "explore";
+}
+
+function resetWizardSteps() {
+  if (!isWizardApplicable()) {
+    document.getElementById("calcWrapper")?.classList.remove("wizard-active");
+    document.getElementById("wizardNav")?.style.setProperty("display", "none");
+    return;
+  }
+  // Show wizard nav for applicable scenarios
+  document.getElementById("wizardNav").style.display = "";
+  if (wizardExpertMode) {
+    document.getElementById("calcWrapper").classList.remove("wizard-active");
+    updateWizardNavUI();
+    return;
+  }
+  // Start fresh at step 1 when entering a scenario
+  wizardCurrentStep = 1;
+  applyWizardStep(1);
+}
+
+function applyWizardStep(n) {
+  wizardCurrentStep = n;
+  const calc = document.getElementById("calcWrapper");
+  calc.classList.add("wizard-active");
+  calc.classList.remove("show-step-1", "show-step-2", "show-step-3");
+  calc.classList.add(`show-step-${n}`);
+  updateWizardNavUI();
+  // Update continue button label / disabled state
+  const btn = document.getElementById("wstepContinue");
+  if (btn) {
+    btn.textContent = n === 2 ? "See results →" : "Continue →";
+  }
+  // Scroll the wizard nav into view smoothly
+  const nav = document.getElementById("wizardNav");
+  if (nav) nav.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function updateWizardNavUI() {
+  document.querySelectorAll(".wstep").forEach(s => {
+    const n = +s.dataset.wstep;
+    s.classList.toggle("active", !wizardExpertMode && n === wizardCurrentStep);
+    s.classList.toggle("done", !wizardExpertMode && n < wizardCurrentStep);
+  });
+}
+
+function setExpertMode(on) {
+  wizardExpertMode = on;
+  try { localStorage.setItem(WIZARD_DISMISSED_KEY, on ? "1" : "0"); } catch(e) {}
+  const calc = document.getElementById("calcWrapper");
+  if (on) {
+    calc.classList.remove("wizard-active", "show-step-1", "show-step-2", "show-step-3");
+  } else {
+    // Reset wizard back to step 1
+    wizardCurrentStep = 1;
+    applyWizardStep(1);
+  }
+  updateWizardNavUI();
+}
+
+function nextWizardStep() {
+  if (wizardCurrentStep < 3) applyWizardStep(wizardCurrentStep + 1);
+}
+
+function applyScenarioUI(scenario) {
+  // Show/hide the Compare panel link in tabs
+  const tabCompare = document.querySelector('[data-tab="compare"]');
+  const tabBuying = document.getElementById("tabBuying");
+  const tabLiving = document.querySelector('[data-tab="living"]');
+  const tabMove = document.querySelector('[data-tab="move"]');
+  const priceField = document.getElementById("priceField");
+  const rentField = document.getElementById("rentField");
+
+  // Default visibility
+  if (tabCompare) tabCompare.style.display = "";
+  if (tabBuying) tabBuying.style.display = "";
+  if (tabLiving) tabLiving.style.display = "";
+  if (tabMove) tabMove.style.display = "";
+
+  // Explore mode: hide all tabs, show only the explore guidance panel
+  if (scenario === "explore") {
+    document.querySelectorAll('.tab').forEach(t => t.style.display = "none");
+    const tabExplore = document.querySelector('[data-tab="explore"]');
+    if (tabExplore) tabExplore.style.display = "";
+    // Reset answers and build quiz
+    Object.keys(exploreAnswers).forEach(k => delete exploreAnswers[k]);
+    const resultEl = document.getElementById("exploreResult");
+    if (resultEl) resultEl.style.display = "none";
+    renderExploreQuiz();
+    switchTab("explore");
+    return;
+  }
+
+  // Compare: show both rent and price fields, auto-switch to Compare tab
+  if (scenario === "compare") {
+    if (priceField) priceField.style.display = "";
+    if (rentField) rentField.style.display = "";
+    if (tabBuying) tabBuying.classList.remove("disabled");
+    switchTab("compare");
+    return;
+  }
+
+  // Own: hide Relocation tab (no move-in), show Buying tab (ownership only — price field shown but represents current value)
+  if (scenario === "own") {
+    if (tabMove) tabMove.style.display = "none";
+    if (priceField) {
+      priceField.style.display = "";
+      const label = priceField.querySelector('label');
+      if (label && !label.dataset.origText) {
+        label.dataset.origText = label.innerHTML;
+        label.innerHTML = 'Current property value <span class="hint">€</span>';
+      }
+    }
+    if (rentField) rentField.style.display = "none";
+    if (tabBuying) tabBuying.classList.remove("disabled");
+    // BUG-1 UI: no purchase means no financing, no completion date
+    const completionField = document.getElementById("completionField");
+    if (completionField) completionField.style.display = "none";
+    const financingToggle = document.getElementById("financingToggle");
+    if (financingToggle) financingToggle.style.display = "none";
+    const mortgagePanel = document.getElementById("mortgagePanel");
+    if (mortgagePanel) mortgagePanel.style.display = "none";
+    // Force cash mode so calcMortgage returns null
+    if (state.mortgage) state.mortgage.enabled = false;
+    switchTab("buying");
+    return;
+  }
+
+  // Non-own scenarios: restore financing/completion UI visibility
+  const completionField = document.getElementById("completionField");
+  if (completionField) completionField.style.display = "";
+  const financingToggle = document.getElementById("financingToggle");
+  if (financingToggle) financingToggle.style.display = "";
+  // mortgagePanel visibility is managed by the financing toggle handler — leave alone here
+
+  // Rent / Buy: restore default price-field label if it was changed
+  if (priceField) {
+    const label = priceField.querySelector('label');
+    if (label && label.dataset.origText) {
+      label.innerHTML = label.dataset.origText;
+      delete label.dataset.origText;
+    }
+  }
 }
 
 function setStrategy(s) {
@@ -1690,35 +3770,218 @@ function switchTab(name) {
    ============================================================= */
 document.addEventListener("DOMContentLoaded", () => {
   buildRegionSelect();
+  // Seed initial household HI
+  state.hi = calcHI().autoMonthly;
+  const hiInput = document.getElementById("hi");
+  if (hiInput) hiInput.value = state.hi;
   renderMove();
   renderAll();
 
-  $("#region").addEventListener("change", e => {
-    state.region = e.target.value;
-    // Seed rent from region default
-    const r = region();
-    state.rent = r.rentMid;
-    $("#rent").value = state.rent;
+  // Region card picker — open modal on trigger click; selection handled inside selectRegion()
+  const regionTrigger = document.getElementById("regionTrigger");
+  if (regionTrigger) regionTrigger.addEventListener("click", openRegionModal);
+  const regionClose = document.getElementById("regionClose");
+  if (regionClose) regionClose.addEventListener("click", closeRegionModal);
+  const regionFilter = document.getElementById("regionFilter");
+  if (regionFilter) regionFilter.addEventListener("input", e => filterRegionCards(e.target.value));
+  // Click outside panel to dismiss
+  const regionModal = document.getElementById("regionModal");
+  if (regionModal) regionModal.addEventListener("click", e => {
+    if (e.target === regionModal) closeRegionModal();
+  });
+  // ESC to close
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && regionModal && !regionModal.hidden) closeRegionModal();
+  });
+
+  // Phase 3: explainer toggles on stat cards
+  document.querySelectorAll(".explainer-toggle").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.explain;
+      const map = {monthly:"explainMonthly", annual:"explainAnnual", move:"explainMove", purchase:"explainPurchase", year1:"explainYear1"};
+      const target = document.getElementById(map[key]);
+      if (!target) return;
+      const isOpen = !target.hidden;
+      target.hidden = isOpen;
+      btn.setAttribute("aria-expanded", String(!isOpen));
+    });
+  });
+  // Re-derive profile chip from adults+children when user edits manually
+  function resyncChipFromState() {
+    const chipMap = { "1_0":"solo", "2_0":"couple", "2_1":"family1", "2_2":"family2" };
+    const chipKey = `${state.adults}_${state.children}`;
+    state.profile = chipMap[chipKey] || null; // null = no chip matches (e.g. retiree/luxury after edits)
+    document.querySelectorAll(".chip").forEach(c => c.classList.toggle("active", c.dataset.profile === state.profile));
+  }
+  $("#adults").addEventListener("change", e => {
+    state.adults = +e.target.value;
+    if (!state.hiOverride) { state.hi = calcHI().autoMonthly; $("#hi").value = state.hi; }
+    resyncChipFromState();
     renderAll();
   });
-  $("#adults").addEventListener("change", e => { state.adults = +e.target.value; renderAll(); });
-  $("#children").addEventListener("change", e => { state.children = +e.target.value; renderAll(); });
-  $("#rent").addEventListener("input", e => { state.rent = +e.target.value || 0; renderAll(); });
-  $("#price").addEventListener("input", e => { state.price = +e.target.value || 0; renderAll(); });
-  $("#hi").addEventListener("input", e => { state.hi = +e.target.value || 0; renderAll(); });
+  $("#children").addEventListener("change", e => {
+    state.children = +e.target.value;
+    if (!state.hiOverride) { state.hi = calcHI().autoMonthly; $("#hi").value = state.hi; }
+    resyncChipFromState();
+    renderAll();
+  });
+  $("#rent").addEventListener("input", e => { state.rent = +e.target.value || 0; state.rentOverride = true; renderAll(); });
+  $("#price").addEventListener("input", e => { state.price = +e.target.value || 0; state.priceOverride = true; renderAll(); });
+  $("#hi").addEventListener("input", e => {
+    state.hi = +e.target.value || 0;
+    state.hiOverride = true; // user is manually overriding the auto-calculated household HI
+    renderAll();
+  });
   $("#ageBand").addEventListener("change", e => {
     state.ageBand = e.target.value;
-    // Re-seed HI when age changes
-    state.hi = HI_BY_AGE[state.ageBand][LIFESTYLE[state.mode].hiTier];
+    // Re-seed HI when age changes (clear override)
+    state.hiOverride = false;
+    state.hi = calcHI().autoMonthly;
     $("#hi").value = state.hi;
     renderAll();
   });
 
   // Buying tab inputs
-  ["propType","propStyle","propLocation","propPool"].forEach(id => {
+  ["propType","propStyle","propPool"].forEach(id => {
     const el = $("#"+id);
-    if (el) el.addEventListener("change", e => { state[id] = e.target.value; renderAll(); });
+    if (el) el.addEventListener("change", e => {
+      state[id] = e.target.value;
+      // BUG-8: when apartment, disable "private pool" option and fall back to community
+      if (id === "propStyle") syncPoolOptions();
+      renderAll();
+    });
   });
+
+  // School type selector (only meaningful when children > 0)
+  const schoolSel = $("#schoolType");
+  if (schoolSel) {
+    schoolSel.addEventListener("change", e => {
+      state.schoolType = e.target.value;
+      // Reset custom override when type changes — show default for new type
+      state.schoolCustomMonthly = null;
+      renderAll();
+    });
+  }
+  const schoolCustom = $("#schoolCustomMonthly");
+  if (schoolCustom) {
+    schoolCustom.addEventListener("input", e => {
+      const v = +e.target.value;
+      state.schoolCustomMonthly = Number.isFinite(v) && v >= 0 ? v : null;
+      renderAll();
+    });
+  }
+
+  // Pet count
+  const petSel = $("#pets");
+  if (petSel) {
+    petSel.addEventListener("change", e => {
+      state.pets = +e.target.value || 0;
+      const anchor = $("#petsAnchor");
+      if (anchor) {
+        anchor.textContent = state.pets > 0
+          ? `${state.pets} × €${PET_ANNUAL.toLocaleString()}/yr (food, insurance €20/mo, vaccines €200-300, avg treatment €150-300). Depends on animal type and special needs — exotics, large breeds or chronic conditions cost more.`
+          : "";
+      }
+      renderAll();
+    });
+  }
+
+  // Completion date (affects Valencia ITP rate)
+  const cd = $("#completionDate");
+  if (cd) {
+    // Default the visible value to today
+    const today = new Date().toISOString().slice(0,10);
+    cd.value = today;
+    state.completionDate = today;
+    cd.addEventListener("change", e => {
+      state.completionDate = e.target.value || null;
+      renderAll();
+    });
+  }
+
+  // Residency dropdown inside the Buying tab
+  const rb = $("#residencyBuy");
+  if (rb) {
+    rb.value = state.residency;
+    rb.addEventListener("change", e => {
+      state.residency = e.target.value;
+      // Show/hide cadastral % field — only relevant for non-residents (IRNR)
+      const cadField = document.getElementById("cadastralField");
+      if (cadField) cadField.style.display = state.residency !== "resident" ? "" : "none";
+      // BUG-9: Smart-default LTV + rate update on residency change, unless the user has
+      // manually edited rate/LTV (then don't clobber their choice).
+      if (!state.mortgage.userEditedRate) {
+        if (state.residency === "non_resident_eu") state.mortgage.rate = 0.040;
+        else if (state.residency === "non_resident_world") state.mortgage.rate = 0.045;
+        else state.mortgage.rate = 0.035;
+        const rateEl = document.getElementById("mortRate");
+        if (rateEl) rateEl.value = (state.mortgage.rate * 100).toFixed(2);
+      }
+      if (!state.mortgage.userEditedLtv) {
+        if (state.residency === "non_resident_eu") state.mortgage.ltv = 0.65;
+        else if (state.residency === "non_resident_world") state.mortgage.ltv = 0.60;
+        else state.mortgage.ltv = 0.70;
+        const ltvEl = document.getElementById("mortLtv");
+        if (ltvEl) ltvEl.value = state.mortgage.ltv;
+      }
+      renderAll();
+    });
+  }
+
+  // BUG-7: Cadastral % input — affects IRNR calc for non-residents
+  const cadInput = document.getElementById("cadastralPct");
+  if (cadInput) {
+    cadInput.value = ((state.cadastralPct || 0.5) * 100).toFixed(0);
+    cadInput.addEventListener("input", e => {
+      const v = +e.target.value;
+      if (Number.isFinite(v) && v >= 10 && v <= 90) {
+        state.cadastralPct = v / 100;
+        renderAll();
+      }
+    });
+    // Also show field on initial load if user is non-resident
+    const cadField = document.getElementById("cadastralField");
+    if (cadField) cadField.style.display = state.residency !== "resident" ? "" : "none";
+  }
+
+  // PHASE 7: Financing toggle (cash / mortgage)
+  document.querySelectorAll("#financingToggle button").forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll("#financingToggle button").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      state.mortgage.enabled = (b.dataset.fin === "mortgage");
+      renderAll();
+    };
+  });
+  // Mortgage inputs
+  const mortLtv = $("#mortLtv");
+  if (mortLtv) {
+    mortLtv.value = state.mortgage.ltv;
+    mortLtv.addEventListener("change", e => {
+      state.mortgage.ltv = +e.target.value;
+      state.mortgage.userEditedLtv = true;
+      renderAll();
+    });
+  }
+  const mortRate = $("#mortRate");
+  if (mortRate) {
+    mortRate.value = (state.mortgage.rate * 100).toFixed(2);
+    mortRate.addEventListener("input", e => {
+      state.mortgage.rate = (+e.target.value || 0) / 100;
+      state.mortgage.userEditedRate = true;
+      renderAll();
+    });
+  }
+  const mortTerm = $("#mortTerm");
+  if (mortTerm) {
+    mortTerm.value = state.mortgage.termYears;
+    mortTerm.addEventListener("change", e => { state.mortgage.termYears = +e.target.value; renderAll(); });
+  }
+  const mortArrangement = $("#mortArrangement");
+  if (mortArrangement) {
+    mortArrangement.value = (state.mortgage.arrangementPct * 100).toFixed(2);
+    mortArrangement.addEventListener("input", e => { state.mortgage.arrangementPct = (+e.target.value || 0) / 100; renderAll(); });
+  }
 
   // Pill groups
   document.querySelectorAll("#lifestyleGroup button").forEach(b => {
@@ -1726,22 +3989,15 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll("#lifestyleGroup button").forEach(x => x.classList.remove("active"));
       b.classList.add("active");
       state.mode = b.dataset.mode;
-      // Re-seed HI when lifestyle tier changes
-      state.hi = HI_BY_AGE[state.ageBand][LIFESTYLE[state.mode].hiTier];
+      // Re-seed HI when lifestyle tier changes (clear override)
+      state.hiOverride = false;
+      state.hi = calcHI().autoMonthly;
       $("#hi").value = state.hi;
       renderAll();
     };
   });
   document.querySelectorAll("#strategyGroup button").forEach(b => {
     b.onclick = () => setStrategy(b.dataset.strategy);
-  });
-  document.querySelectorAll("#residencyGroup button").forEach(b => {
-    b.onclick = () => {
-      document.querySelectorAll("#residencyGroup button").forEach(x => x.classList.remove("active"));
-      b.classList.add("active");
-      state.residency = b.dataset.res;
-      renderAll();
-    };
   });
 
   // Profile chips
@@ -1753,6 +4009,71 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".tab").forEach(t => {
     t.onclick = () => { if (!t.classList.contains("disabled")) switchTab(t.dataset.tab); };
   });
+
+  // PHASE 4: Step 0 scenario cards + back button
+  document.querySelectorAll(".scen-card").forEach(card => {
+    card.addEventListener("click", () => {
+      if (card.disabled) return;
+      enterScenario(card.dataset.scenario);
+    });
+  });
+  const backBtn = document.getElementById("backToStep0");
+  if (backBtn) backBtn.addEventListener("click", () => {
+    // Pushing state so the browser back button stays in sync
+    if (history.state && history.state.view === "calc") history.back();
+    else showStep0();
+  });
+
+  // PHASE 6: Wizard step nav clicks (allow jumping back to a completed step)
+  document.querySelectorAll(".wstep").forEach(s => {
+    s.addEventListener("click", () => {
+      if (wizardExpertMode) return;
+      const n = +s.dataset.wstep;
+      applyWizardStep(n);
+    });
+  });
+  // Continue button
+  const wstepContinue = document.getElementById("wstepContinue");
+  if (wstepContinue) wstepContinue.addEventListener("click", nextWizardStep);
+  // Expert mode toggle
+  const expertModeToggle = document.getElementById("expertMode");
+  if (expertModeToggle) {
+    // Restore preference
+    try {
+      if (localStorage.getItem(WIZARD_DISMISSED_KEY) === "1") {
+        expertModeToggle.checked = true;
+        wizardExpertMode = true;
+      }
+    } catch(e) {}
+    expertModeToggle.addEventListener("change", e => setExpertMode(e.target.checked));
+  }
+
+  // BROWSER BACK BUTTON SUPPORT
+  // popstate fires when user clicks back; we read history.state to know which view
+  window.addEventListener("popstate", e => {
+    const view = e.state && e.state.view;
+    if (view === "calc" && e.state.scenario) {
+      // Re-enter scenario without pushing a new history entry
+      enterScenarioNoHistory(e.state.scenario);
+    } else {
+      // Default: show Step 0
+      showStep0NoHistory();
+    }
+  });
+
+  // PERSISTENCE: restore state and last scenario if user reloads
+  const persisted = loadPersistedState();
+  if (persisted) {
+    applyPersistedState(persisted);
+    // If user had picked a scenario, jump them back into it
+    if (persisted.scenario) {
+      enterScenario(persisted.scenario);
+      return; // skip showStep0
+    }
+  }
+
+  // Show Step 0 on initial load (the calc starts hidden)
+  showStep0();
 });
 </script>
 </body>
